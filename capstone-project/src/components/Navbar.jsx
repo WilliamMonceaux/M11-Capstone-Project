@@ -14,6 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
 const pages = [
@@ -82,7 +83,12 @@ function Navbar(props) {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {pages.map((page) => (
-              <Button key={page.title} sx={{ color: '#fff' }}>
+              <Button
+                key={page.title}
+                component={NavLink}
+                to={page.path}
+                sx={{ color: '#fff' }}
+              >
                 {page.title}
               </Button>
             ))}
