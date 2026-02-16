@@ -43,13 +43,13 @@ function Navbar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Prayer App
       </Typography>
       <Divider />
       <List>
         {pages.map((page) => (
           <ListItem key={page.title} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton component={NavLink} to={page.path} sx={{ textAlign: 'center' }}>
               <ListItemText primary={page.title} />
             </ListItemButton>
           </ListItem>
@@ -79,7 +79,7 @@ function Navbar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            Prayer App
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {pages.map((page) => (
@@ -119,7 +119,7 @@ function Navbar(props) {
   );
 }
 
-DrawerAppBar.propTypes = {
+Navbar.propTypes = {
   window: PropTypes.func,
 };
 
