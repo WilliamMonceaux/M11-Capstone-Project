@@ -19,15 +19,15 @@ import { NavLink } from 'react-router-dom';
 const drawerWidth = 240;
 const pages = [
   {
-    title: 'home',
+    title: 'Home',
     path: '/',
   },
   {
-    title: 'make a prayer request',
+    title: 'Request Prayers',
     path: '/request',
   },
   {
-    title: 'signin',
+    title: 'Sign In',
     path: '/signin',
   },
 ];
@@ -64,7 +64,7 @@ function Navbar(props) {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar component="nav">
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: 'end'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -72,12 +72,12 @@ function Navbar(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ fontSize: '2.5rem'}} />
           </IconButton>
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ fontSize: '2.6rem', flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
             Prayer App
           </Typography>
@@ -87,7 +87,7 @@ function Navbar(props) {
                 key={page.title}
                 component={NavLink}
                 to={page.path}
-                sx={{ color: '#fff' }}
+                sx={{ fontSize: '1.4rem', color: '#fff' }}
               >
                 {page.title}
               </Button>
@@ -99,6 +99,7 @@ function Navbar(props) {
         <Drawer
           container={container}
           variant="temporary"
+          anchor='right'
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
