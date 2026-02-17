@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
 
-function HeroArea({ Heading, Paragraph}) {
+function HeroArea({ heading, paragraph }) {
   return (
     <Box
-    component="section"
+      component="section"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -16,7 +16,7 @@ function HeroArea({ Heading, Paragraph}) {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: 'column',
           alignItems: 'start',
           justifyContent: 'center',
           backgroundColor: 'white',
@@ -24,12 +24,25 @@ function HeroArea({ Heading, Paragraph}) {
           flexGrow: 1,
         }}
       >
-        <Box sx={{ width: '100%', m: '4rem', textAlign: 'center' }}>
-          <Typography variant="h1" component="h1" sx={{ fontSize: '8.5rem' }}>
-            Where healing and community is built
-          </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexGrow: 0.5,
+            width: '100%',
+          }}
+        >
+          <Box sx={{ width: '80%', textAlign: 'center', mb: 2 }}>
+            <Typography variant="h1" component="h1" sx={{ fontSize: '8.0rem' }}>
+              {heading}
+            </Typography>
+          </Box>
+          <Box sx={{ mt: '2rem' }}>
+            <Typography sx={{ fontSize: '1.6rem' }}>{paragraph}</Typography>
+          </Box>
         </Box>
-        
       </Box>
     </Box>
   );
