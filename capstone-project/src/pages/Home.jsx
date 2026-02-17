@@ -1,8 +1,9 @@
 import '../index.css';
+import { HeroArea } from '../components/HeroArea';
 
 function Home() {
-    return(<>
-    </>)
+    return(
+    <HeroArea />)
 }
 
 export { Home };
