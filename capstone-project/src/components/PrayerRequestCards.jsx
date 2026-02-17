@@ -1,4 +1,5 @@
 import { Box, Typography, Container, Avatar } from '@mui/material';
+import heartImg from '../assets/images/heart-like.png';
 
 function PrayerRequestCards() {
   return (
@@ -55,8 +56,15 @@ function PrayerRequestCards() {
                 Username
               </Typography>
             </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', border: '2px solid blueviolet'}}>
+                <Box component='img' src={heartImg} alt='like button' sx={{ width: '3rem' }}>
+                </Box>
+                <Typography variant='h6' sx={{ fontSize: { xs: '1.5rem', md: '2rem' }, ml: 0.5 }}>
+                    0
+                </Typography>
+            </Box>
           </Box>
-          <Typography variant='h6' sx={{ fontSize: { xs: '1.5rem', md: '2.0rem' }, display: 'block', my: 3 }}>
+          <Typography variant='h6' sx={{ fontSize: { xs: '1.5rem', md: '2rem' }, display: 'block', my: 3 }}>
             Title
           </Typography>
           <Typography variant='body1' sx={{ mt: 1, mb: 4, fontSize: { xs: '1.2rem', md: '1.6rem' }}}>
