@@ -60,7 +60,7 @@ function Navbar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
+      <Typography variant="h6" sx={{ my: 2, fontSize: '2rem' }}>
         Prayer App
       </Typography>
       <Divider />
@@ -72,7 +72,7 @@ function Navbar(props) {
               to={page.path}
               sx={{ textAlign: 'center' }}
             >
-              <ListItemText primary={page.title} />
+              <ListItemText primary={page.title} primaryTypographyProps={{ style: { fontSize: '1.4rem' } }} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -94,24 +94,14 @@ function Navbar(props) {
         }}
       >
         <Toolbar sx={{ justifyContent: 'end' }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon sx={{ fontSize: '2.5rem', color: 'black' }} />
-          </IconButton>
           <Typography
             variant="h6"
             component="div"
             sx={{
-              textAlign: 'center',
               color: 'black',
-              fontSize: '2.6rem',
+              fontSize: '2.4rem',
               flexGrow: 1,
-              display: { xs: 'none', sm: 'block' },
+              display: { xs: 'block', sm: 'block' },
             }}
           >
             Prayer App
@@ -128,6 +118,15 @@ function Navbar(props) {
               </Button>
             ))}
           </Box>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon sx={{ fontSize: '2.5rem', color: 'black' }} />
+          </IconButton>
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt="User Profile" sx={{ fontSize: '1.4rem', color: 'black' }} />
