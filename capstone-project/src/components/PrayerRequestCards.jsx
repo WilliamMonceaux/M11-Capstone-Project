@@ -9,17 +9,19 @@ function PrayerRequestCards() {
         display: 'flex',
         flexDirection: 'column',
         border: '2px solid blue',
-        my: 10,
       }}
     >
       <Container
-        maxWidth="sm"
+        maxWidth="md"
         sx={{
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
+          px: 4,
+          py: 10,
           gap: 2,
           border: '2px solid green',
+          backgroundColor: 'white'
         }}
       >
         <Box
@@ -81,7 +83,7 @@ function PrayerRequestCards() {
                 </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', border: '2px solid green'}}>
-                <Typography sx={{ fontSize: { xs: '1.2rem', md: '1.6rem' }, fontWeight: 'bold'}}>
+                <Typography variant='body1' sx={{ fontSize: { xs: '1.2rem', md: '1.6rem' }}}>
                     20 minutes ago
                 </Typography>
                 </Box>
