@@ -19,7 +19,18 @@ export default function Home() {
 
       <main>
         <Container maxWidth="md" sx={{ mt: 4 }}>
-          <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+          <Typography
+            variant="h2"
+            component="h2"
+            gutterBottom
+            sx={{
+              fontSize: 'clamp(3.5rem, 5vw + 1.5rem, 4.88rem)',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              lineHeight: 1.2,
+              textShadow: '0px 6px 12px rgba(0,0,0,0.35)',
+            }}
+          >
             Community Prayer Requests
           </Typography>
         </Container>
