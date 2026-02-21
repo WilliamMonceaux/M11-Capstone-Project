@@ -31,14 +31,8 @@ function HeroArea({ heading, paragraph, button }) {
         <Grid item sx={{ width: '80%', textAlign: 'center', mt: 2 }}>
           <Typography
             variant="h1"
-            component="h1"
             sx={{
-              fontSize: {
-                xs: '4.0rem',
-                sm: '5.5rem',
-                md: '7.0rem',
-                lg: '8.0rem',
-              },
+              fontSize: 'clamp(3.91rem, 8vw + 1rem, 7.3rem)',
               lineHeight: 1.1,
               letterSpacing: '-0.02em',
               wordBreak: 'keep-all',
