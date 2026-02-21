@@ -27,7 +27,8 @@ function PrayerRequestCards() {
             borderRadius: 2,
             p: 3,
             position: 'relative',
-            boxShadow: '0px 4px 10px rgba(0,0,0,0.35)'
+            boxShadow: '0px 4px 10px rgba(0,0,0,0.35)',
+            border: '1px solid black'
           }}
         >
           <Box
