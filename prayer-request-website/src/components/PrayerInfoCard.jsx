@@ -10,6 +10,7 @@ function PrayerInfoCard({ title, description }) {
         p: 4,
         borderRadius: 2,
         boxShadow: '0px 4px 10px rgba(0,0,0,0.35)',
+        border: '2px solid black'
       }}
     >
       <Typography
