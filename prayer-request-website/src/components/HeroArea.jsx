@@ -23,7 +23,8 @@ function HeroArea({ heading, paragraph, button }) {
           alignItems: 'center',
           justifyContent: 'center',
           gap: 2,
-          backgroundColor: 'white',
+          backgroundImage:
+            'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
           width: '70%',
           flexGrow: 1,
         }}
