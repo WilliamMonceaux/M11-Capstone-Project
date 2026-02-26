@@ -44,7 +44,7 @@ const prayerPostSchema = new mongoose.Schema(
   }
 );
 
-const PrayerPost = mongoose.model('Prayers', prayerPostSchema);
+const PrayerPost = mongoose.model('Prayer', prayerPostSchema);
 
 module.exports = {
   PrayerPost,
