@@ -1,5 +1,5 @@
 import { connectMongo } from '@/lib/mongodb';
-import Prayer from '@/models/Prayerpost';
+import Prayer from '@/models/PrayerPost';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
