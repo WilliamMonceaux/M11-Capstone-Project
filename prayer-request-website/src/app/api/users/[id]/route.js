@@ -1,0 +1,29 @@
+import { connectMongo } from '@/lib/mongodb';
+import { User } from '@/models/User';
+import { PrayerPost } from '@/models/PrayerPost';
+import { Comment } from '@/models/Comment';
+import { NextResponse } from 'next/server';
+
+export async function DELETE(req, { params }) {
+  try {
+    await connectMongo();
+    const { id } = await params;
+
+    const deleteUser = await User.findByIdAndDelete(id);
+
+    if (!deleteUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    await PrayerPost.deleteMany({ author: id });
+    await Comment.deleteMany({ author: id });
+
+    return NextResponse.json(
+      { message: 'User and associated data deleted successfully' },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error('DELETE error:', err);
+    return NextResponse.json({ error: 'Failed to delete user' }, { status: 500 });
+  }
+}
