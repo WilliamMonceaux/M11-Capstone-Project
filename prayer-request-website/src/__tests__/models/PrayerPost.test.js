@@ -38,3 +38,22 @@ describe('PrayerPost Model Unit Tests', () => {
         expect(savedPrayer.isAnonymous).toBe(false);
     });
 })
+
+    it('should fail if duration is not in the allowed enum list', async () => {
+    const invalidPrayer = new PrayerPost({
+      user_id: new mongoose.Types.ObjectId(),
+      title: 'Invalid Duration',
+      description: 'test description',
+      duration: 'eternity'
+    });
+
+    let err;
+    try {
+      await invalidPrayer.save();
+    } catch (error) {
+      err = error;
+    }
+
+    expect(err).toBeDefined();
+    expect(err.errors.duration.message).toBe('Please select a valid duration');
+  });
