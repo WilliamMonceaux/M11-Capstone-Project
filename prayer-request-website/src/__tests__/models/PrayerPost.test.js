@@ -37,7 +37,6 @@ describe('PrayerPost Model Unit Tests', () => {
     expect(savedPrayer.status).toBe('Need Prayers');
     expect(savedPrayer.isAnonymous).toBe(false);
   });
-});
 
 it('should fail if duration is not in the allowed enum list', async () => {
   const invalidPrayer = new PrayerPost({
@@ -68,4 +67,15 @@ it('should fail if description exceeds 1000 characters', async () => {
   });
 
   await expect(tooLongPrayer.save()).rejects.toThrow(/Exceeded 1000 characters/);
+});
+
+it('should fail if user_id is missing', async () => {
+  const orphanedPrayer = new PrayerPost({
+    title: 'No User',
+    description: 'Missing user_id',
+    duration: '1 day'
+  });
+
+  await expect(orphanedPrayer.save()).rejects.toThrow(/A prayer must belong to a user/);
+});
 });
