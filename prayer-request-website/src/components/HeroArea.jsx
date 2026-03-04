@@ -1,4 +1,5 @@
 import { Typography, Button, Grid } from '@mui/material';
+import { RequestBtn } from '../components/RequestBtn';
 
 function HeroArea({ heading, paragraph, button }) {
   return (
@@ -55,21 +56,7 @@ function HeroArea({ heading, paragraph, button }) {
           </Typography>
         </Grid>
 
-        {button && (
-          <Grid item sx={{ my: 4 }}>
-            <Button
-              variant="contained"
-              sx={{
-                fontSize: { xs: '1.1rem', md: '1.4rem' },
-                fontWeight: 700,
-                p: '1.2rem',
-                backgroundColor: '#2196F3',
-              }}
-            >
-              {button}
-            </Button>
-          </Grid>
-        )}
+        <RequestBtn text='Request A Prayer' />
       </Grid>
     </Grid>
   );
