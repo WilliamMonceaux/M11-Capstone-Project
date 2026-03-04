@@ -102,7 +102,13 @@ function Navbar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="sticky"
@@ -110,25 +116,47 @@ function Navbar(props) {
         sx={{
           backgroundColor: 'transparent',
           boxShadow: 'none',
-          borderBottom: '1px solid black',
         }}
       >
         <Toolbar sx={{ justifyContent: 'end' }}>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', ml: 4 }}>
-                      <PrayerHands src='/images/praying-hands.png' alt='Prayer Hands Logo' width={50} height={50}/>
-          <Typography
-            variant="h6"
-            component="div"
+          <Box
             sx={{
-              color: 'black',
-              fontSize: '2.4rem',
               flexGrow: 1,
-              mx: 1,
-              display: { xs: 'block', sm: 'block' },
+              display: 'flex',
+              alignItems: 'center',
+              ml: 4,
             }}
           >
-            Prayer App
-          </Typography>
+            <Box
+              component={Link}
+              href="/"
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                color: 'inherit',
+              }}
+            >
+                          <PrayerHands
+              src="/images/praying-hands.png"
+              alt="Prayer Hands Logo"
+              width={50}
+              height={50}
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                color: 'black',
+                fontSize: '2.4rem',
+                flexGrow: 1,
+                mx: 1,
+                display: { xs: 'block', sm: 'block' },
+              }}
+            >
+              Prayer App
+            </Typography>
+            </Box>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {pages.map((page) => (
@@ -166,7 +194,12 @@ function Navbar(props) {
               onClose={handleCloseUserMenu}
             >
               {settingsLoggedOut.map((setting) => (
-                <MenuItem key={setting.title} onClick={handleCloseUserMenu} component={Link} href={setting.path}>
+                <MenuItem
+                  key={setting.title}
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  href={setting.path}
+                >
                   <Typography sx={{ fontSize: '1.4rem', textAlign: 'center' }}>
                     {setting.title}
                   </Typography>
