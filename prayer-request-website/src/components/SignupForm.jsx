@@ -58,7 +58,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp(props) {
+ function SignUpForm(props) {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -218,3 +218,5 @@ export default function SignUp(props) {
     </>
   );
 }
+
+export { SignUpForm };
