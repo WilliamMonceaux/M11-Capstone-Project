@@ -30,6 +30,10 @@ const pages = [
     title: 'Home',
     path: '/',
   },
+    {
+    title: 'Prayer Meditation',
+    path: '/meditation'
+  },
   {
     title: 'Request Prayers',
     path: '/request',
@@ -124,7 +128,6 @@ function Navbar(props) {
               flexGrow: 1,
               display: 'flex',
               alignItems: 'center',
-              ml: 4,
             }}
           >
             <Box
@@ -164,7 +167,7 @@ function Navbar(props) {
                 key={page.title}
                 component={Link}
                 href={page.path}
-                sx={{ fontSize: {md: '1.4rem', xl: '1.6rem'}, fontWeight: 700, color: 'black', mr: 1 }}
+                sx={{ fontSize: {md: '1.4rem', xl: '1.6rem'}, fontWeight: 500, color: 'black', mr: 1, textTransform: 'none' }}
               >
                 {page.title}
               </Button>
