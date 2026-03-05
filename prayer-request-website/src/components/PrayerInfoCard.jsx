@@ -6,11 +6,12 @@ function PrayerInfoCard({ title, description }) {
       sx={{
         backgroundColor: 'white',
         width: '100%',
-        maxWidth: '450px',
+        maxWidth: '425px',
         p: 4,
         borderRadius: 2,
         boxShadow: '0px 4px 10px rgba(0,0,0,0.35)',
-        border: '2px solid black'
+        border: '2px solid black',
+        textAlign: 'center'
       }}
     >
       <Typography
