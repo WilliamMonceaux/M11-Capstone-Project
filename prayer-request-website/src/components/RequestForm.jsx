@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Stack, styled, Typography, Box, TextField, Paper } from '@mui/material';
+import { Stack, styled, Typography, Box, TextField, Paper, FormControlLabel, Radio } from '@mui/material';
 import Image from 'next/image';
 import CheckMark from '../../public/images/checkmark.png';
 
@@ -86,6 +86,27 @@ function RequestForm() {
               sx={{ backgroundColor: '#f9f9f9', borderRadius: 1 }}
             />
           </Box>
+          <Box
+            component="section"
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', sm: 'center' },
+              gap: 2,
+              mb: 4,
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={isAnonymous}
+                  onClick={() => setIsAnonymous(!isAnonymous)}
+                />
+              }
+              label="Post as Anonymous"
+            />
+            </Box>
         </Box>
       </Paper>
     </PageWrapper>
