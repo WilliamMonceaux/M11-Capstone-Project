@@ -17,8 +17,13 @@ function PrayerHero() {
     >
       <Typography
         variant="h3"
+        component="h3"
         sx={{
-          fontSize: 'clamp(3.13rem, 2.5vw + 2.5rem, 4.2rem)',
+          fontSize: {
+            xs: '2.2rem',
+            md: '3.91rem',
+            xl: '4.88rem',
+          },
           fontWeight: 'bold',
           textShadow: '0px 6px 12px rgba(0,0,0,0.35)',
           mb: 4,
@@ -31,7 +36,7 @@ function PrayerHero() {
         component="img"
         src="/images/pray.png"
         alt="Person praying"
-        sx={{ width: '100%', maxWidth: 350 }}
+        sx={{ width: { xs: '70%', md: '100%' }, maxWidth: 350 }}
       />
     </Grid>
   );

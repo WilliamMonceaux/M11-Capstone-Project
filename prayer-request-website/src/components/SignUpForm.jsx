@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/context/UserContext';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -58,7 +60,9 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp(props) {
+ function SignUpForm(props) {
+  const { handleUpdateUser } = useUserContext();
+  const router = useRouter();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -103,19 +107,44 @@ export default function SignUp(props) {
     return isValid;
   };
 
-  const handleSubmit = (event) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+     const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if(!validateInputs()) {
+    return;
+  }
+
+  const data = new FormData(e.currentTarget);
+  const signupData = {
+    username: data.get('name'),
+    email: data.get('email'),
+    password: data.get('password'),
   };
+
+  try {
+    const response = await fetch('http://localhost:3000/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(signupData),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      handleUpdateUser(result.user);
+
+      router.push('/feed');
+    } else {
+      alert(result.message || 'Signup failed, Please try again.');
+    }
+  } catch (err) {
+    console.error('Error during signup:', err);
+    alert('Could not connect to the server.');
+  }
+};
+
 
   return (
     <>
@@ -193,7 +222,7 @@ export default function SignUp(props) {
               fullWidth
               variant="contained"
               onClick={validateInputs}
-              sx={{ my: 2, backgroundColor: '#2196F3' }}
+              sx={{ my: 2, backgroundColor: '#2196F3', textTransform: 'none' }}
             >
               Sign up
             </Button>
@@ -205,7 +234,7 @@ export default function SignUp(props) {
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                href="/signin"
                 variant="body2"
                 sx={{ alignSelf: 'center', fontSize: '1.6rem' }}
               >
@@ -218,3 +247,5 @@ export default function SignUp(props) {
     </>
   );
 }
+
+export { SignUpForm };
