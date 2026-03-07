@@ -16,7 +16,9 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
+import { Avatar } from '@mui/material';
 import { Alert, Snackbar } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useUserContext } from '@/context/UserContext';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -73,6 +75,16 @@ function SignUpForm(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [previewUrl, setPreviewUrl] = React.useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -119,19 +131,19 @@ function SignUpForm(props) {
     }
 
     const data = new FormData(e.currentTarget);
-    const signupData = {
-      username: data.get('name'),
-      email: data.get('email'),
-      password: data.get('password'),
-    };
+
+    data.append('username', data.get('name'));
+    data.append('email', data.get('email'));
+    data.append('password', data.get('password'));
+
+    if (selectedFile) {
+      data.append('profilePicture', selectedFile);
+    }
 
     try {
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(signupData),
+        body: data,
       });
 
       const result = await response.json();
@@ -147,11 +159,15 @@ function SignUpForm(props) {
           router.push('/');
         }, 2000);
       } else {
-        alert(result.message || 'Signup failed, Please try again.');
+        setSnackbarSeverity('error');
+        setSnackbarMessage(result.message || 'Signup failed. Please try again.');
+        setOpenSnackbar(true);
       }
     } catch (err) {
       console.error('Error during signup:', err);
-      alert('Could not connect to the server.');
+      setSnackbarSeverity('error');
+      setSnackbarMessage('Could not connect to the server.');
+      setOpenSnackbar(true);
     }
   };
 
@@ -226,11 +242,38 @@ function SignUpForm(props) {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2,
+              }}
+            >
+              <Avatar src={previewUrl} sx={{ width: 100, height: 100 }} />
+              <Button
+                component="label"
+                variant="contained"
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload Picture
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </Button>
+              {selectedFile && (
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                  {selectedFile.name}
+                </Typography>
+              )}
+            </Box>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
               sx={{ my: 2, backgroundColor: '#2196F3', textTransform: 'none' }}
             >
               Sign up
