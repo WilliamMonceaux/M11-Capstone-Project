@@ -234,7 +234,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                href="/signin"
                 variant="body2"
                 sx={{ alignSelf: 'center', fontSize: '1.6rem' }}
               >
