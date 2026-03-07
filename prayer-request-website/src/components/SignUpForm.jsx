@@ -183,13 +183,23 @@ function SignUpForm(props) {
           >
             Sign up
           </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+            <Box component="span" sx={{ color: 'error.main', mr: 1 }}>
+              *
+            </Box>
+            fields are required
+          </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
+            noValidate
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
             <FormControl>
               <FormLabel htmlFor="name" sx={{ fontSize: '1.6rem', mb: 1 }}>
+                <Box component="span" sx={{ color: 'error.main', mr: 0.5 }}>
+                  *
+                </Box>
                 Username
               </FormLabel>
               <TextField
@@ -207,6 +217,9 @@ function SignUpForm(props) {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="email" sx={{ fontSize: '1.6rem', mb: 1 }}>
+                <Box component="span" sx={{ color: 'error.main', mr: 0.5 }}>
+                  *
+                </Box>
                 Email
               </FormLabel>
               <TextField
@@ -225,6 +238,9 @@ function SignUpForm(props) {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="password" sx={{ fontSize: '1.6rem', mb: 1 }}>
+                <Box component="span" sx={{ color: 'error.main', mr: 0.5 }}>
+                  *
+                </Box>
                 Password
               </FormLabel>
               <TextField
