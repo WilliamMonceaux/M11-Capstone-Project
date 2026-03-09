@@ -37,11 +37,21 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
 
+    const durationMap = {
+      '1 week': 7,
+      '2 weeks': 14,
+      '1 month': 30
+    };
+
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + (durationMap[data.duration] || 7));
+
     const newPost = await PrayerPost.create({
       user_id: data.user_id,
       title: data.title,
       description: data.description,
       duration: data.duration,
+      expiresAt: expirationDate,
       isAnonymous: data.isAnonymous || false,
     });
 
