@@ -154,7 +154,7 @@ function SignInForm(props) {
             Sign in
           </Typography>
           {props.message && (
-            <Alert severity="info" sx={{ mb: 1, fontSize: '1.6rem' }}>
+            <Alert severity="info" sx={{ textAlign: 'center', mb: 1, fontSize: '1.6rem' }}>
               {props.message}
             </Alert>
           )}
