@@ -8,20 +8,11 @@ export async function GET() {
     const timeNow = new Date();
 
     const prayers = await PrayerPost.find({
-      $or: [
-        { duration: 0 },
-        {
-          $expr: {
-            $gt: [
-              { $add: ['$createdAt', { $multiply: ['$duration', 3600000] }] },
-              timeNow,
-            ],
-          },
-        },
-      ],
+      expiresAt: { $gt: timeNow },
     })
       .sort({ createdAt: -1 })
       .limit(10);
+
     return NextResponse.json(prayers, { status: 200 });
   } catch (err) {
     return NextResponse.json({ error: 'Failed to fetch prayers' }, { status: 500 });
@@ -40,11 +31,13 @@ export async function POST(req) {
     const durationMap = {
       '1 week': 7,
       '2 weeks': 14,
-      '1 month': 30
+      '1 month': 30,
     };
 
     const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + (durationMap[data.duration] || 7));
+    expirationDate.setDate(
+      expirationDate.getDate() + (durationMap[data.duration] || 7)
+    );
 
     const newPost = await PrayerPost.create({
       user_id: data.user_id,
