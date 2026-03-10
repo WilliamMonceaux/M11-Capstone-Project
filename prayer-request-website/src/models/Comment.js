@@ -24,8 +24,5 @@ const commentsSchema = new mongoose.Schema(
   }
 );
 
-const Comment = mongoose.model('Comment', commentsSchema);
-
-module.exports = {
-    Comment,
-}
+export const Comment =
+  mongoose.models.Comment || mongoose.model('Comment', commentsSchema);
