@@ -40,6 +40,7 @@ const prayerPostSchema = new mongoose.Schema(
       enum: ['Need Prayers', 'Prayer Answered'],
       default: 'Need Prayers',
     },
+    prayedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     prayedCount: {
       type: Number,
       default: 0,

@@ -8,8 +8,12 @@ import {
   CircularProgress,
   Paper,
   styled,
+  Stack,
+  Button,
 } from '@mui/material';
+import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
+import { useUserContext } from '@/context/UserContext';
 
 const PrayerCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -33,7 +37,7 @@ const StatusBadge = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0.5, 1.5),
   borderRadius: '4px',
   backgroundColor: '#ffebee',
-  border: '1px solid'
+  border: '1px solid',
 }));
 
 const getStatusColors = (status) => {
@@ -52,8 +56,31 @@ const getStatusColors = (status) => {
 };
 
 function PrayerRequestCards() {
+  const { currentUser } = useUserContext();
   const [prayers, setPrayers] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handlePray = async (prayerId) => {
+    if (!currentUser?._id) return alert('Please log in to pray.');
+
+    try {
+      const response = await fetch(`/api/prayers/${prayerId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: currentUser._id,
+          action: 'togglePray',
+        }),
+      });
+
+      if (response.ok) {
+        const updatedPost = await response.json();
+        setPrayers((prev) => prev.map((p) => (p._id === prayerId ? updatedPost : p)));
+      }
+    } catch (error) {
+      console.error('Error toggling prayer:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchPrayers = async () => {
@@ -88,7 +115,7 @@ function PrayerRequestCards() {
           py: 5,
           display: 'flex',
           flexDirection: 'column',
-          gap: 4,
+          gap: 8,
           maxWidth: { xs: '95%', sm: '85%', md: '800px', lg: '1000px', xl: '1200px' },
         }}
       >
@@ -104,6 +131,7 @@ function PrayerRequestCards() {
             const initial = username.charAt(0).toUpperCase();
             const status = prayer.status || 'Need Prayers';
             const colors = getStatusColors(status);
+            const hasPrayed = prayer.prayedBy?.includes(currentUser?._id);
 
             return (
               <PrayerCard
@@ -151,22 +179,58 @@ function PrayerRequestCards() {
                     </Typography>
                   </Box>
 
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Box
-                      component="img"
-                      src="/images/heart-like.png"
-                      alt="like"
-                      sx={{ width: { xs: 28, xl: 45 }, opacity: 0.8 }}
-                    />
-                    <Typography
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Button
+                      onClick={() => handlePray(prayer._id)}
+                      startIcon={
+                        <Box
+                          sx={{
+                            position: 'relative',
+                            width: { xs: 24, xl: 32 },
+                            height: { xs: 24, xl: 32 },
+                          }}
+                        >
+                          <Image
+                            src={
+                              hasPrayed
+                                ? '/images/praying-hands.png'
+                                : '/images/outlined-praying-hands.png'
+                            }
+                            alt="Pray"
+                            fill
+                            style={{ objectFit: 'contain' }}
+                          />
+                        </Box>
+                      }
                       sx={{
-                        fontWeight: 'bold',
-                        fontSize: { xs: '1.2rem', xl: '2rem' },
+                        textTransform: 'none',
+                        fontWeight: 700,
+                        borderRadius: '20px',
+                        fontSize: { xs: '0.9rem', xl: '1.2rem' }, // Scaled for your large monitor
+                        color: hasPrayed ? '#2e7d32' : 'inherit',
+                        backgroundColor: hasPrayed
+                          ? 'rgba(46, 125, 50, 0.08)'
+                          : 'transparent',
+                        '&:hover': {
+                          backgroundColor: hasPrayed
+                            ? 'rgba(46, 125, 50, 0.12)'
+                            : 'rgba(0,0,0,0.04)',
+                        },
                       }}
                     >
-                      0
+                      {hasPrayed ? 'Prayed' : 'Pray'}
+                    </Button>
+
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: 800,
+                        fontSize: { md: '1.4rem', xl: '1.6rem'}
+                      }}
+                    >
+                      {prayer.prayedCount || 0}
                     </Typography>
-                  </Box>
+                  </Stack>
                 </Box>
 
                 <Typography
