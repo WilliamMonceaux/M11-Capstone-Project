@@ -21,6 +21,6 @@ const LikeSchema = new mongoose.Schema(
   }
 );
 
-likesSchema.index({ user_id: 1, prayer_id: 1 }, { unique: true });
+LikeSchema.index({ user_id: 1, prayer_id: 1 }, { unique: true });
 
 export const Like = mongoose.models.Like || mongoose.model('Like', LikeSchema);
