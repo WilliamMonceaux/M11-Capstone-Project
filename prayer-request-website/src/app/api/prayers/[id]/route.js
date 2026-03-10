@@ -37,45 +37,46 @@ export async function PATCH(req, { params }) {
     const body = await req.json();
     const { user_id, action } = body;
 
-    // --- INTERACTION: LIKES (Public) ---
     if (action === 'togglePray') {
       const existingLike = await Like.findOne({ user_id: user_id, prayer_id: id });
+      let updated;
+
       if (existingLike) {
         await Like.findByIdAndDelete(existingLike._id);
-        const updated = await PrayerPost.findByIdAndUpdate(
-          id,
+
+        updated = await PrayerPost.findOneAndUpdate(
+          { _id: id, prayedCount: { $gt: 0 } }, 
           { $inc: { prayedCount: -1 } },
           { new: true }
-        );
-        return NextResponse.json(updated, { status: 200 });
+        ).populate('user_id', 'username profilePicture');
+
+        if (!updated) {
+          updated = await PrayerPost.findById(id).populate('user_id', 'username profilePicture');
+        }
       } else {
         await Like.create({ user_id: user_id, prayer_id: id });
-        const updated = await PrayerPost.findByIdAndUpdate(
+        updated = await PrayerPost.findByIdAndUpdate(
           id,
           { $inc: { prayedCount: 1 } },
           { new: true }
-        );
-        return NextResponse.json(updated, { status: 200 });
+        ).populate('user_id', 'username profilePicture');
       }
+
+      return NextResponse.json(updated, { status: 200 });
     }
 
-    // --- OWNER ACTION: EDIT (Private) ---
     const prayer = await PrayerPost.findById(id);
     if (!prayer) return NextResponse.json({ error: 'Post not found' }, { status: 404 });
 
-    // Verify ownership before allowing the $set
     if (prayer.user_id.toString() !== user_id) {
-      return NextResponse.json(
-        { error: 'Unauthorized to edit this post' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
     const updatedPrayer = await PrayerPost.findByIdAndUpdate(
       id,
-      { $set: body.editData }, // Ensure you send fields inside an 'editData' object from frontend
+      { $set: body.editData },
       { new: true, runValidators: true }
-    );
+    ).populate('user_id', 'username profilePicture');
 
     return NextResponse.json(updatedPrayer, { status: 200 });
   } catch (err) {
