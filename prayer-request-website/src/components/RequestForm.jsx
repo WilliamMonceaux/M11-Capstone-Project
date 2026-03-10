@@ -12,10 +12,12 @@ import {
   MenuItem,
   FormControl,
   Select,
-  Button
+  Button,
 } from '@mui/material';
 import Image from 'next/image';
 import CheckMark from '../../public/images/checkmark.png';
+import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/context/UserContext';
 
 const PageWrapper = styled(Stack)(({ theme }) => ({
   minHeight: '100vh',
@@ -31,13 +33,45 @@ const PageWrapper = styled(Stack)(({ theme }) => ({
 }));
 
 function RequestForm() {
+  const { currentUser: user, loading } = useUserContext();
+  const router = useRouter();
+
+  const [title, setTitle] = useState('');
   const [request, setRequest] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [duration, setDuration] = useState('1 day');
-
-  const handleSubmit = (e) => {
+  const [duration, setDuration] = useState('1 Week');
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ request, isAnonymous, duration });
+
+    if (!user?._id) {
+      alert('Please sign in to post a request.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/prayers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          user_id: user._id,
+          title,
+          description: request,
+          duration,
+          isAnonymous,
+        }),
+      });
+
+      if (res.ok) {
+        router.push('/');
+      } else {
+        const errorData = await res.json();
+        console.error('Post failed:', errorData.error);
+        alert(`Error: ${errorData.error}`);
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+    }
   };
 
   return (
@@ -79,6 +113,15 @@ function RequestForm() {
           noValidate
           aria-label="Prayer request submission form"
         >
+          <TextField
+            fullWidth
+            label="Title"
+            variant="filled"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{ mb: 3, backgroundColor: '#f9f9f9', borderRadius: 1 }}
+            required
+          />
           <Box component="section" sx={{ mb: 3 }}>
             <TextField
               id="request-input"
@@ -130,11 +173,9 @@ function RequestForm() {
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                 >
-                  <MenuItem value="1 day">1 Day</MenuItem>
-                  <MenuItem value="4 days">4 Days</MenuItem>
-                  <MenuItem value="1 week">1 Week</MenuItem>
-                  <MenuItem value="2 weeks">2 Weeks</MenuItem>
-                  <MenuItem value="1 month">1 Month</MenuItem>
+                  <MenuItem value="1 Week">1 Week</MenuItem>
+                  <MenuItem value="2 Weeks">2 Weeks</MenuItem>
+                  <MenuItem value="1 Month">1 Month</MenuItem>
                 </Select>
               </FormControl>
             </Box>
