@@ -115,7 +115,7 @@ function PrayerRequestCards() {
           py: 5,
           display: 'flex',
           flexDirection: 'column',
-          gap: 4,
+          gap: 8,
           maxWidth: { xs: '95%', sm: '85%', md: '800px', lg: '1000px', xl: '1200px' },
         }}
       >
