@@ -39,7 +39,7 @@ function RequestForm() {
   const [title, setTitle] = useState('');
   const [request, setRequest] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [duration, setDuration] = useState('1 week');
+  const [duration, setDuration] = useState('1 Week');
   const handleSubmit = async (e) => {
     e.preventDefault();
 
