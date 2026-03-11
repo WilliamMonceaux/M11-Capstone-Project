@@ -346,7 +346,7 @@ function PrayerRequestCards({ activeStatus }) {
                             PaperProps: {
                               sx: {
                                 '& .MuiMenuItem-root': {
-                                  fontSize: { xs: '0.9rem', md: '1.1rem' }, 
+                                  fontSize: { xs: '0.9rem', md: '1.6rem' }, 
                                   py: 1, 
                                   minHeight: 'auto',
                                 },
