@@ -2,7 +2,6 @@
 import { HeroArea } from '@/components/HeroArea';
 import { PrayerRequestCards } from '@/components/PrayerRequestCards';
 import { UnderstandingPrayer } from '@/components/UnderstandingPrayer';
-import { Pagination } from '@/components/Pagination';
 import { PrayerCategories } from '@/components/PrayerCategories';
 import { Typography, Container } from '@mui/material';
 import { Box } from '@mui/material';
@@ -63,7 +62,6 @@ export default function Home() {
           </Box>
         </Container>
         <PrayerRequestCards />
-        <Pagination />
       </main>
     </>
   );
