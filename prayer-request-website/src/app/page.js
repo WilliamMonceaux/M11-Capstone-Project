@@ -1,40 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { HeroArea } from '@/components/HeroArea';
 import { PrayerRequestCards } from '@/components/PrayerRequestCards';
 import { UnderstandingPrayer } from '@/components/UnderstandingPrayer';
 import { Pagination } from '@/components/Pagination';
 import { PrayerCategories } from '@/components/PrayerCategories';
-import { Box, Typography, Container, CircularProgress } from '@mui/material';
+import { Typography, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 export default function Home() {
-  const [prayers, setPrayers] = useState([]); 
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  useEffect(() => {
-    const fetchPrayers = async () => {
-      try {
-        const res = await fetch('/api/prayers');
-        if (res.ok) {
-          const data = await res.json();
-          setPrayers(data);
-        }
-      } catch (err) {
-        console.error('Failed to fetch prayers:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPrayers();
-  }, []);
-
-  const totalPages = Math.ceil(prayers.length / itemsPerPage) || 1;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPrayers = prayers.slice(indexOfFirstItem, indexOfLastItem);
-
   return (
     <>
       <HeroArea
@@ -89,15 +62,8 @@ export default function Home() {
             <PrayerCategories />
           </Box>
         </Container>
-        <PrayerRequestCards prayers={currentPrayers} setPrayers={setPrayers} />
-        <Pagination
-          current={currentPage}
-          total={totalPages}
-          onPageChange={(newPage) => {
-            setCurrentPage(newPage);
-            window.scrollTo({ top: 400, behavior: 'smooth' });
-          }}
-        />
+        <PrayerRequestCards />
+        <Pagination />
       </main>
     </>
   );
