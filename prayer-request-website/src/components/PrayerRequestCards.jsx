@@ -222,8 +222,8 @@ function PrayerRequestCards({ activeStatus }) {
                             <Image
                               src={
                                 hasPrayed
-                                  ? '/images/praying-hands.png'
-                                  : '/images/outlined-praying-hands.png'
+                                  ? '/images/like-btn-praying.png'
+                                  : '/images/like-btn-praying-outlined.png'
                               }
                               alt="Pray"
                               fill
