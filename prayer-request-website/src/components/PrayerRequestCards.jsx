@@ -11,7 +11,10 @@ import {
   Stack,
   Button,
   Pagination,
-  Skeleton
+  Skeleton,
+  Select,
+  MenuItem,
+  FormControl,
 } from '@mui/material';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
@@ -65,6 +68,27 @@ function PrayerRequestCards({ activeStatus }) {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 5;
 
+  const handleStatusChange = async (prayerId, newStatus) => {
+    try {
+      const response = await fetch(`/api/prayers/${prayerId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'edit',
+          editData: { status: newStatus },
+          user_id: currentUser._id,
+        }),
+      });
+
+      if (response.ok) {
+        const updatedPost = await response.json();
+        setPrayers((prev) => prev.map((p) => (p._id === prayerId ? updatedPost : p)));
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
   const handlePray = async (prayerId) => {
     if (!currentUser?._id) return alert('Please log in to pray.');
 
@@ -115,22 +139,26 @@ function PrayerRequestCards({ activeStatus }) {
     fetchPrayers();
   }, [page, activeStatus]);
 
- if (loading) {
-  return (
-    <Container sx={{ py: 5, maxWidth: { md: '800px' } }}>
-      {[...Array(3)].map((_, i) => (
-        <Paper key={i} sx={{ p: 3, mb: 8, borderRadius: 4 }}>
-          <Stack direction="row" spacing={2} alignItems="center" mb={2}>
-            <Skeleton variant="circular" width={52} height={52} />
-            <Skeleton variant="text" width="40%" height={30} />
-          </Stack>
-          <Skeleton variant="rectangular" height={100} sx={{ mb: 2, borderRadius: 2 }} />
-          <Skeleton variant="text" width="20%" />
-        </Paper>
-      ))}
-    </Container>
-  );
-}
+  if (loading) {
+    return (
+      <Container sx={{ py: 5, maxWidth: { md: '800px' } }}>
+        {[...Array(3)].map((_, i) => (
+          <Paper key={i} sx={{ p: 3, mb: 8, borderRadius: 4 }}>
+            <Stack direction="row" spacing={2} alignItems="center" mb={2}>
+              <Skeleton variant="circular" width={52} height={52} />
+              <Skeleton variant="text" width="40%" height={30} />
+            </Stack>
+            <Skeleton
+              variant="rectangular"
+              height={100}
+              sx={{ mb: 2, borderRadius: 2 }}
+            />
+            <Skeleton variant="text" width="20%" />
+          </Paper>
+        ))}
+      </Container>
+    );
+  }
 
   return (
     <Box sx={{ minHeight: '40vh', display: 'flex', flexDirection: 'column' }}>
@@ -293,6 +321,7 @@ function PrayerRequestCards({ activeStatus }) {
                         py: { xs: 0.5, xl: 1.5 },
                         backgroundColor: colors.bg,
                         borderColor: colors.border,
+                        cursor: isAuthor ? 'pointer' : 'default',
                       }}
                     >
                       <Typography
@@ -304,15 +333,51 @@ function PrayerRequestCards({ activeStatus }) {
                       >
                         Status: &nbsp;
                       </Typography>
-                      <Typography
-                        sx={{
-                          color: 'black',
-                          fontWeight: 500,
-                          fontSize: { xs: '0.9rem', md: '1.1rem', xl: '1.6rem' },
-                        }}
-                      >
-                        {status}
-                      </Typography>
+
+                      {isAuthor ? (
+                        <Select
+                          value={status}
+                          onChange={(e) =>
+                            handleStatusChange(prayer._id, e.target.value)
+                          }
+                          variant="standard"
+                          disableUnderline
+                          MenuProps={{
+                            PaperProps: {
+                              sx: {
+                                '& .MuiMenuItem-root': {
+                                  fontSize: { xs: '0.9rem', md: '1.1rem' }, 
+                                  py: 1, 
+                                  minHeight: 'auto',
+                                },
+                              },
+                            },
+                          }}
+                          sx={{
+                            fontWeight: 500,
+                            fontSize: { xs: '0.9rem', md: '1.1rem', xl: '1.6rem' },
+                            color: 'black',
+                            '& .MuiSelect-select': {
+                              py: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                            },
+                          }}
+                        >
+                          <MenuItem value="Need Prayers">Need Prayers</MenuItem>
+                          <MenuItem value="Prayer Answered">Prayer Answered</MenuItem>
+                        </Select>
+                      ) : (
+                        <Typography
+                          sx={{
+                            color: 'black',
+                            fontWeight: 500,
+                            fontSize: { xs: '0.9rem', md: '1.1rem', xl: '1.6rem' },
+                          }}
+                        >
+                          {status}
+                        </Typography>
+                      )}
                     </StatusBadge>
 
                     <Typography
