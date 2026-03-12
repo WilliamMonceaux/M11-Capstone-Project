@@ -6,7 +6,12 @@ import { dataDisplayCustomizations } from './dataDisplay';
 import { feedbackCustomizations } from './feedback';
 import { navigationCustomizations } from './navigation';
 import { surfacesCustomizations } from './surfaces';
-import { colorSchemes, typography, shadows, shape } from '../customizations/themePrimitives';
+import { 
+  colorSchemes, 
+  typography, 
+  shadows, 
+  shape 
+} from '../customizations/themePrimitives';
 
 export default function AppTheme(props) {
   const { children, disableCustomTheme, themeComponents } = props;
@@ -15,25 +20,27 @@ export default function AppTheme(props) {
     return disableCustomTheme
       ? {}
       : createTheme({
+          // 1. CSS Variable Support (Standard for modern MUI templates)
           cssVariables: {
             colorSchemeSelector: 'data-mui-color-scheme',
             cssVarPrefix: 'template',
           },
+          // 2. The Color Palette from themePrimitives.js
           colorSchemes: {
             ...colorSchemes,
-            light: colorSchemes?.light || true,
-            dark: colorSchemes?.dark || true,
           },
+          // 3. Core Design Tokens
           typography,
           shadows,
           shape,
+          // 4. Component Overrides
           components: {
             ...inputsCustomizations,
             ...dataDisplayCustomizations,
             ...feedbackCustomizations,
             ...navigationCustomizations,
             ...surfacesCustomizations,
-            ...themeComponents,
+            ...themeComponents, // Custom props passed directly to AppTheme
           },
         });
   }, [disableCustomTheme, themeComponents]);
