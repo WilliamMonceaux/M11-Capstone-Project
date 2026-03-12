@@ -50,8 +50,8 @@ function AccountSettings() {
 
   const onSave = async () => {
     try {
-      const response = await fetch('/api/user/update', {
-        method: 'POST',
+      const response = await fetch('/api/users/profile', {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
@@ -64,8 +64,11 @@ function AccountSettings() {
           message: 'Profile updated successfully!',
           severity: 'success',
         });
+
+        setFormData((prev) => ({ ...prev, password: '' }));
       } else {
-        throw new Error('Update failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Update failed');
       }
     } catch (err) {
       setSnackbar({
@@ -87,19 +90,19 @@ function AccountSettings() {
           </Typography>
 
           <Stack spacing={3} sx={{ mt: 4 }}>
-           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-  {/* Update 'src' and the fallback condition below */}
-  <Avatar 
-    src={currentUser?.profilePicture} 
-    sx={{ width: 80, height: 80, fontSize: '2.5rem' }}
-  >
-    {!currentUser?.profilePicture && formData.username?.charAt(0).toUpperCase()}
-  </Avatar>
-  <Button variant="outlined" component="label" startIcon={<PhotoCamera />}>
-    Change Photo
-    <input hidden accept="image/*" type="file" />
-  </Button>
-</Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+              <Avatar
+                src={currentUser?.profilePicture}
+                sx={{ width: 80, height: 80, fontSize: '2.5rem' }}
+              >
+                {!currentUser?.profilePicture &&
+                  formData.username?.charAt(0).toUpperCase()}
+              </Avatar>
+              <Button variant="outlined" component="label" startIcon={<PhotoCamera />}>
+                Change Photo
+                <input hidden accept="image/*" type="file" />
+              </Button>
+            </Box>
 
             <TextField
               label="Username"
