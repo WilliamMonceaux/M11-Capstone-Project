@@ -6,7 +6,6 @@ import { chipClasses } from '@mui/material/Chip';
 import { iconButtonClasses } from '@mui/material/IconButton';
 import { gray, red, green } from './themePrimitives';
 
-/* eslint-disable import/prefer-default-export */
 export const dataDisplayCustomizations = {
   MuiList: {
     styleOverrides: {
@@ -99,77 +98,47 @@ export const dataDisplayCustomizations = {
         },
         variants: [
           {
-            props: {
-              color: 'default',
-            },
+            props: { color: 'default' },
             style: {
               borderColor: gray[200],
               backgroundColor: gray[100],
-              [`& .${chipClasses.label}`]: {
-                color: gray[500],
-              },
-              [`& .${chipClasses.icon}`]: {
-                color: gray[500],
-              },
+              [`& .${chipClasses.label}`]: { color: gray[500] },
+              [`& .${chipClasses.icon}`]: { color: gray[500] },
               ...theme.applyStyles('dark', {
                 borderColor: gray[700],
                 backgroundColor: gray[800],
-                [`& .${chipClasses.label}`]: {
-                  color: gray[300],
-                },
-                [`& .${chipClasses.icon}`]: {
-                  color: gray[300],
-                },
+                [`& .${chipClasses.label}`]: { color: gray[300] },
+                [`& .${chipClasses.icon}`]: { color: gray[300] },
               }),
             },
           },
           {
-            props: {
-              color: 'success',
-            },
+            props: { color: 'success' },
             style: {
               borderColor: green[200],
               backgroundColor: green[50],
-              [`& .${chipClasses.label}`]: {
-                color: green[500],
-              },
-              [`& .${chipClasses.icon}`]: {
-                color: green[500],
-              },
+              [`& .${chipClasses.label}`]: { color: green[500] },
+              [`& .${chipClasses.icon}`]: { color: green[500] },
               ...theme.applyStyles('dark', {
                 borderColor: green[800],
                 backgroundColor: green[900],
-                [`& .${chipClasses.label}`]: {
-                  color: green[300],
-                },
-                [`& .${chipClasses.icon}`]: {
-                  color: green[300],
-                },
+                [`& .${chipClasses.label}`]: { color: green[300] },
+                [`& .${chipClasses.icon}`]: { color: green[300] },
               }),
             },
           },
           {
-            props: {
-              color: 'error',
-            },
+            props: { color: 'error' },
             style: {
               borderColor: red[100],
               backgroundColor: red[50],
-              [`& .${chipClasses.label}`]: {
-                color: red[500],
-              },
-              [`& .${chipClasses.icon}`]: {
-                color: red[500],
-              },
+              [`& .${chipClasses.label}`]: { color: red[500] },
+              [`& .${chipClasses.icon}`]: { color: red[500] },
               ...theme.applyStyles('dark', {
                 borderColor: red[800],
                 backgroundColor: red[900],
-                [`& .${chipClasses.label}`]: {
-                  color: red[200],
-                },
-                [`& .${chipClasses.icon}`]: {
-                  color: red[300],
-                },
+                [`& .${chipClasses.label}`]: { color: red[200] },
+                [`& .${chipClasses.icon}`]: { color: red[300] },
               }),
             },
           },
@@ -177,28 +146,51 @@ export const dataDisplayCustomizations = {
             props: { size: 'small' },
             style: {
               maxHeight: 20,
-              [`& .${chipClasses.label}`]: {
-                fontSize: theme.typography.caption.fontSize,
-              },
-              [`& .${svgIconClasses.root}`]: {
-                fontSize: theme.typography.caption.fontSize,
-              },
+              [`& .${chipClasses.label}`]: { fontSize: theme.typography.caption.fontSize },
+              [`& .${svgIconClasses.root}`]: { fontSize: theme.typography.caption.fontSize },
             },
           },
           {
             props: { size: 'medium' },
             style: {
-              [`& .${chipClasses.label}`]: {
-                fontSize: theme.typography.caption.fontSize,
-              },
+              [`& .${chipClasses.label}`]: { fontSize: theme.typography.caption.fontSize },
             },
           },
         ],
       }),
     },
   },
+  MuiDataGrid: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        fontSize: '1.4rem',
+        [theme.breakpoints.up('xl')]: {
+          fontSize: '1.6rem',
+        },
+        [`& .${svgIconClasses.root}`]: {
+          fontSize: '2rem',
+          [theme.breakpoints.up('xl')]: {
+            fontSize: '2.4rem',
+          },
+        },
+      }),
+      cell: {
+        padding: '1.2rem',
+      },
+    },
+  },
   MuiTablePagination: {
     styleOverrides: {
+      root: {
+        fontSize: '1.4rem',
+        '& .MuiTablePagination-selectLabel': { fontSize: '1.4rem' },
+        '& .MuiTablePagination-displayedRows': { fontSize: '1.4rem' },
+      },
+      select: {
+        fontSize: '1.4rem',
+        paddingTop: '0.4rem',
+        paddingBottom: '0.4rem',
+      },
       actions: {
         display: 'flex',
         gap: 8,
@@ -219,12 +211,8 @@ export const dataDisplayCustomizations = {
       root: {
         variants: [
           {
-            props: {
-              fontSize: 'small',
-            },
-            style: {
-              fontSize: '1rem',
-            },
+            props: { fontSize: 'small' },
+            style: { fontSize: '1rem' },
           },
         ],
       },

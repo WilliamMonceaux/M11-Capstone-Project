@@ -4,9 +4,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { Outlet } from 'react-router';
-import DashboardHeader from './DashboardHeader';
-import DashboardSidebar from './DashboardSidebar';
-import SitemarkIcon from './SitemarkIcon';
+import DashboardHeader from '@/components/DashboardHeader';
+import DashboardSidebar from '@/components/DashboardSidebar';
 
 export default function DashboardLayout() {
   const theme = useTheme();
@@ -30,11 +29,7 @@ export default function DashboardLayout() {
         setIsMobileNavigationExpanded(newExpanded);
       }
     },
-    [
-      isOverMdViewport,
-      setIsDesktopNavigationExpanded,
-      setIsMobileNavigationExpanded,
-    ],
+    [isOverMdViewport],
   );
 
   const handleToggleHeaderMenu = React.useCallback(
@@ -50,16 +45,24 @@ export default function DashboardLayout() {
     <Box
       ref={layoutRef}
       sx={{
-        position: 'relative',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         display: 'flex',
         overflow: 'hidden',
-        height: '100%',
-        width: '100%',
+        height: '100vh',
+        width: '100vw',
+        bgcolor: 'background.default',
+        zIndex: 9999,
+        margin: 0,
+        padding: 0,
       }}
     >
       <DashboardHeader
-        logo={<SitemarkIcon />}
-        title=""
+        logo={null}
+        title="Prayer App"
         menuOpen={isNavigationExpanded}
         onToggleMenu={handleToggleHeaderMenu}
       />
@@ -74,6 +77,7 @@ export default function DashboardLayout() {
           flexDirection: 'column',
           flex: 1,
           minWidth: 0,
+          bgcolor: 'background.default',
         }}
       >
         <Toolbar sx={{ displayPrint: 'none' }} />
@@ -83,7 +87,9 @@ export default function DashboardLayout() {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
+            p: 3,
             overflow: 'auto',
+            minHeight: 0,
           }}
         >
           <Outlet />

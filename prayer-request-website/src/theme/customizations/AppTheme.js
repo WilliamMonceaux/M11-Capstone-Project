@@ -6,10 +6,16 @@ import { dataDisplayCustomizations } from './dataDisplay';
 import { feedbackCustomizations } from './feedback';
 import { navigationCustomizations } from './navigation';
 import { surfacesCustomizations } from './surfaces';
-import { colorSchemes, typography, shadows, shape } from '../customizations/themePrimitives';
+import { 
+  colorSchemes, 
+  typography, 
+  shadows, 
+  shape 
+} from '../customizations/themePrimitives';
 
-function AppTheme(props) {
+export default function AppTheme(props) {
   const { children, disableCustomTheme, themeComponents } = props;
+
   const theme = React.useMemo(() => {
     return disableCustomTheme
       ? {}
@@ -18,7 +24,10 @@ function AppTheme(props) {
             colorSchemeSelector: 'data-mui-color-scheme',
             cssVarPrefix: 'template',
           },
-          colorSchemes,
+          colorSchemes: {
+            ...colorSchemes,
+          },
+          typography,
           shadows,
           shape,
           components: {
@@ -31,11 +40,13 @@ function AppTheme(props) {
           },
         });
   }, [disableCustomTheme, themeComponents]);
+
   if (disableCustomTheme) {
     return <React.Fragment>{children}</React.Fragment>;
   }
+
   return (
-    <ThemeProvider theme={theme} disableTransitionOnChange>
+    <ThemeProvider theme={theme} disableTransitionOnChange defaultMode="light">
       {children}
     </ThemeProvider>
   );
@@ -46,5 +57,3 @@ AppTheme.propTypes = {
   disableCustomTheme: PropTypes.bool,
   themeComponents: PropTypes.object,
 };
-
-export default AppTheme;
