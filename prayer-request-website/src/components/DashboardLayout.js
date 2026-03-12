@@ -6,7 +6,6 @@ import Toolbar from '@mui/material/Toolbar';
 import { Outlet } from 'react-router';
 import DashboardHeader from '@/components/DashboardHeader';
 import DashboardSidebar from '@/components/DashboardSidebar';
-import SitemarkIcon from '@/components/SitemarkIcon';
 
 export default function DashboardLayout() {
   const theme = useTheme();
@@ -55,15 +54,15 @@ export default function DashboardLayout() {
         overflow: 'hidden',
         height: '100vh',
         width: '100vw',
-        bgcolor: 'background.default', // This is key for the dark background
-        zIndex: 9999, // Crank this up to ensure it covers the global Nav
+        bgcolor: 'background.default',
+        zIndex: 9999,
         margin: 0,
         padding: 0,
       }}
     >
       <DashboardHeader
-        logo={<SitemarkIcon />}
-        title="Prayer App Admin"
+        logo={null}
+        title="Prayer App"
         menuOpen={isNavigationExpanded}
         onToggleMenu={handleToggleHeaderMenu}
       />
