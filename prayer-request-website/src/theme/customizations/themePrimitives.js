@@ -318,52 +318,72 @@ export const colorSchemes = {
 };
 
 export const typography = {
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: 'var(--font-lato), sans-serif',
   h1: {
-    fontSize: defaultTheme.typography.pxToRem(48),
-    fontWeight: 600,
+    fontWeight: 700,
     lineHeight: 1.2,
-    letterSpacing: -0.5,
+    fontSize: '4.2rem', // xs: Scaled for mobile
+    '@media (min-width:900px)': { fontSize: '5.2rem' }, // md
+    '@media (min-width:1536px)': { fontSize: '6.1rem' }, // xl: Exact 61px
   },
   h2: {
-    fontSize: defaultTheme.typography.pxToRem(36),
     fontWeight: 600,
     lineHeight: 1.2,
+    fontSize: '3.4rem',
+    '@media (min-width:900px)': { fontSize: '4.2rem' },
+    '@media (min-width:1536px)': { fontSize: '4.88rem' },
   },
   h3: {
-    fontSize: defaultTheme.typography.pxToRem(30),
+    fontWeight: 600,
     lineHeight: 1.2,
+    fontSize: '2.8rem',
+    '@media (min-width:1536px)': { fontSize: '3.91rem' },
   },
   h4: {
-    fontSize: defaultTheme.typography.pxToRem(24),
     fontWeight: 600,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
+    fontSize: '2.2rem',
+    '@media (min-width:1536px)': { fontSize: '3.13rem' },
   },
   h5: {
-    fontSize: defaultTheme.typography.pxToRem(20),
     fontWeight: 600,
+    fontSize: '1.9rem',
+    '@media (min-width:1536px)': { fontSize: '2.5rem' },
   },
   h6: {
-    fontSize: defaultTheme.typography.pxToRem(18),
     fontWeight: 600,
+    fontSize: '1.7rem',
+    '@media (min-width:1536px)': { fontSize: '2.0rem' },
   },
   subtitle1: {
-    fontSize: defaultTheme.typography.pxToRem(18),
+    fontSize: '1.6rem',
+    fontWeight: 500,
+    lineHeight: 1.5,
+    fontFamily: 'var(--font-lato), sans-serif',
   },
   subtitle2: {
-    fontSize: defaultTheme.typography.pxToRem(14),
+    fontSize: '1.28rem',
     fontWeight: 500,
+    lineHeight: 1.5,
+    fontFamily: 'var(--font-lato), sans-serif',
   },
   body1: {
-    fontSize: defaultTheme.typography.pxToRem(14),
+    fontSize: '1.6rem',
+    fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'var(--font-roboto), sans-serif',
   },
   body2: {
-    fontSize: defaultTheme.typography.pxToRem(14),
+    fontSize: '1.28rem',
     fontWeight: 400,
+    lineHeight: 1.5,
+    fontFamily: 'var(--font-roboto), sans-serif',
   },
   caption: {
-    fontSize: defaultTheme.typography.pxToRem(12),
+    fontSize: '1.02rem',
     fontWeight: 400,
+    lineHeight: 1.4,
+    fontFamily: 'var(--font-roboto), sans-serif',
   },
 };
 
