@@ -4,13 +4,11 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createHashRouter, RouterProvider } from 'react-router';
 import DashboardLayout from '@/components/DashboardLayout';
-import EmployeeList from '@/components/EmployeeList';
-import EmployeeShow from '@/components/EmployeeShow';
-import EmployeeCreate from '@/components/EmployeeCreate';
-import EmployeeEdit from '@/components/EmployeeEdit';
+import AccountSettings from '@/components/AccountSettings';
+import MyPrayerRequests from '@/components/MyPrayerRequests';
 import NotificationsProvider from '@/hooks/useNotifications/NotificationsProvider';
 import DialogsProvider from '@/hooks/useDialogs/DialogsProvider';
-import AppTheme from '@/theme/customizations/AppTheme'; 
+import AppTheme from '@/theme/customizations/AppTheme';
 
 export default function DashboardClient() {
   const router = React.useMemo(() => {
@@ -18,11 +16,10 @@ export default function DashboardClient() {
       {
         Component: DashboardLayout,
         children: [
-          { path: '/employees', Component: EmployeeList },
-          { path: '/employees/:employeeId', Component: EmployeeShow },
-          { path: '/employees/new', Component: EmployeeCreate },
-          { path: '/employees/:employeeId/edit', Component: EmployeeEdit },
-          { path: '*', Component: EmployeeList },
+          { path: '/', Component: AccountSettings },
+          { path: '/settings', Component: AccountSettings },
+          { path: '/my-requests', Component: MyPrayerRequests },
+          { path: '*', Component: AccountSettings },
         ],
       },
     ]);
