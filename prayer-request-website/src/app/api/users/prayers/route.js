@@ -1,6 +1,6 @@
 import { connectMongo } from '@/lib/mongodb';
 import { PrayerPost } from '@/models/PrayerPost';
-import { Comment } from '@/models/Comment'; // Ensure this model exists
+import { Comment } from '@/models/Comment';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
