@@ -32,10 +32,6 @@ const pages = [
     path: '/',
   },
   {
-    title: 'Prayer Meditation',
-    path: '/meditation',
-  },
-  {
     title: 'Request Prayers',
     path: '/request',
   },
