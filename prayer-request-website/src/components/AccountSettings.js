@@ -43,7 +43,7 @@ function AccountSettings() {
       setFormData({
         username: currentUser.username || '',
         email: currentUser.email || '',
-        profilePicture: currentUser.profilePicture || '',
+        profilePicture: '',
         password: '',
       });
     }
@@ -92,14 +92,14 @@ function AccountSettings() {
       });
 
       if (response.ok) {
-        const updatedUser = await response.json();
-        handleUpdateUser(updatedUser.user);
+        const result = await response.json();
+        handleUpdateUser(result.user);
         setSnackbar({
           open: true,
           message: 'Profile updated successfully!',
           severity: 'success',
         });
-        setFormData((prev) => ({ ...prev, password: '' }));
+        setFormData((prev) => ({ ...prev, password: '', profilePicture: '' }));
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Update failed');
