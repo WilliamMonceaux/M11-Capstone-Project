@@ -54,7 +54,7 @@ export async function PATCH(req) {
 
   } catch (err) {
     console.error('PATCH ERROR:', err);
-    return NextResponse.json({ message: 'Update failed' }, { status: 500 });
+    return NextResponse.json({ message: 'Update failed', error: err.message }, { status: 500 });
   }
 }
 
@@ -77,19 +77,25 @@ export async function DELETE(req) {
     }
 
     const userId = decoded.userId;
-    const userObjectId = new Types.ObjectId(userId);
-
     const deletedUser = await User.findByIdAndDelete(userId);
     
     if (!deletedUser) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    await Promise.all([
-      PrayerPost.deleteMany({ user_id: userObjectId }),
-      Comment.deleteMany({ user_id: userObjectId }),
-      Like.deleteMany({ user_id: userObjectId })
-    ]);
+    try {
+      await Promise.all([
+        PrayerPost.deleteMany({ 
+          $or: [{ user_id: userId }, { author: userId }, { userId: userId }] 
+        }),
+        Comment.deleteMany({ 
+          $or: [{ author: userId }, { user_id: userId }, { userId: userId }] 
+        }),
+        Like.deleteMany({ user_id: userId })
+      ]);
+    } catch (cleanupErr) {
+      console.warn("Cleanup warning:", cleanupErr);
+    }
 
     cookieStore.delete('token');
 
