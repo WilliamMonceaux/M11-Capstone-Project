@@ -34,20 +34,6 @@ export async function PATCH(req) {
       user.profilePicture = s3Url;
     }
 
-    const username = formData.get('username');
-    if (username && username.trim() !== '') {
-      user.username = username;
-    }
-
-    const email = formData.get('email');
-    if (email && email.trim() !== '') {
-      user.email = email;
-    }
-
-    const newPassword = formData.get('password');
-    if (newPassword && newPassword.trim() !== '') {
-      user.password = newPassword; 
-    }
     const allowedUpdates = ['username', 'email', 'password'];
     allowedUpdates.forEach((key) => {
       const value = formData.get(key);
@@ -91,8 +77,6 @@ export async function DELETE(req) {
     }
 
     const userId = decoded.userId;
-    const userObjectId = new Types.ObjectId(userId);
-
     const deletedUser = await User.findByIdAndDelete(userId);
     
     if (!deletedUser) {
@@ -100,23 +84,18 @@ export async function DELETE(req) {
     }
 
     try {
-      await PrayerPost.deleteMany({ 
-        $or: [{ user_id: userId }, { author: userId }, { userId: userId }] 
-      }); 
-      
-      await Comment.deleteMany({ 
-        $or: [{ author: userId }, { user_id: userId }, { userId: userId }] 
-      });
-
-      await Like.deleteMany({ user_id: userId });
+      await Promise.all([
+        PrayerPost.deleteMany({ 
+          $or: [{ user_id: userId }, { author: userId }, { userId: userId }] 
+        }),
+        Comment.deleteMany({ 
+          $or: [{ author: userId }, { user_id: userId }, { userId: userId }] 
+        }),
+        Like.deleteMany({ user_id: userId })
+      ]);
     } catch (cleanupErr) {
-      console.warn("Cleanup warning: User deleted, but some orphan content might remain.", cleanupErr);
+      console.warn("Cleanup warning:", cleanupErr);
     }
-    await Promise.all([
-      PrayerPost.deleteMany({ user_id: userObjectId }),
-      Comment.deleteMany({ user_id: userObjectId }),
-      Like.deleteMany({ user_id: userObjectId })
-    ]);
 
     cookieStore.delete('token');
 
