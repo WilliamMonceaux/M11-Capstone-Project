@@ -75,12 +75,15 @@ function AccountSettings() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSave = async () => {
+ const onSave = async () => {
     try {
       const data = new FormData();
       data.append('username', formData.username);
       data.append('email', formData.email);
-      if (formData.password) data.append('password', formData.password);
+      
+      if (formData.password) {
+        data.append('password', formData.password);
+      }
 
       if (fileInputRef.current && fileInputRef.current.files[0]) {
         data.append('profilePicture', fileInputRef.current.files[0]);
