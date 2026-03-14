@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Types } from 'mongoose';
+import { uploadToS3 } from '@/lib/s3';
 
 export async function PATCH(req) {
   try {
@@ -19,17 +20,25 @@ export async function PATCH(req) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const data = await req.json();
+    const formData = await req.formData();
     
     const user = await User.findById(decoded.userId);
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const allowedUpdates = ['username', 'email', 'password', 'profilePicture'];
+    const file = formData.get('profilePicture');
+    if (file && typeof file !== 'string' && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const s3Url = await uploadToS3(buffer, file.name, file.type);
+      user.profilePicture = s3Url;
+    }
+
+    const allowedUpdates = ['username', 'email', 'password'];
     allowedUpdates.forEach((key) => {
-      if (data[key] && data[key].trim() !== '') {
-        user[key] = data[key];
+      const value = formData.get(key);
+      if (value && typeof value === 'string' && value.trim() !== '') {
+        user[key] = value;
       }
     });
 
@@ -44,6 +53,7 @@ export async function PATCH(req) {
     }, { status: 200 });
 
   } catch (err) {
+    console.error('PATCH ERROR:', err);
     return NextResponse.json({ message: 'Update failed' }, { status: 500 });
   }
 }
@@ -86,6 +96,7 @@ export async function DELETE(req) {
     return NextResponse.json({ message: 'Account deleted' }, { status: 200 });
 
   } catch (err) {
+    console.error('DELETE ERROR:', err);
     return NextResponse.json({ 
       message: 'Internal Server Error', 
       error: err.message 
