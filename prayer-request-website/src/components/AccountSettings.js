@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Typography,
@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 function AccountSettings() {
   const router = useRouter();
   const { currentUser, handleUpdateUser, loading } = useUserContext();
+  const fileInputRef = useRef(null);
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -34,21 +35,21 @@ function AccountSettings() {
     username: '',
     email: '',
     password: '',
+    profilePicture: '',
   });
 
   useEffect(() => {
     if (currentUser) {
-      setFormData((prev) => ({
-        ...prev,
+      setFormData({
         username: currentUser.username || '',
         email: currentUser.email || '',
         profilePicture: currentUser.profilePicture || '',
         password: '',
-      }));
+      });
     }
   }, [currentUser]);
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -76,10 +77,18 @@ function AccountSettings() {
 
   const onSave = async () => {
     try {
+      const data = new FormData();
+      data.append('username', formData.username);
+      data.append('email', formData.email);
+      if (formData.password) data.append('password', formData.password);
+
+      if (fileInputRef.current && fileInputRef.current.files[0]) {
+        data.append('profilePicture', fileInputRef.current.files[0]);
+      }
+
       const response = await fetch('/api/users/profile', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: data,
       });
 
       if (response.ok) {
@@ -119,10 +128,9 @@ function AccountSettings() {
         throw new Error(errorData.message || 'Delete failed');
       }
     } catch (err) {
-      console.error('Delete error:', err);
       setSnackbar({
         open: true,
-        message: 'Delete failed. Please try again or log out and back in.',
+        message: 'Delete failed. Please try again.',
         severity: 'error',
       });
       setIsDeleting(false);
@@ -145,14 +153,13 @@ function AccountSettings() {
                 src={formData.profilePicture || currentUser?.profilePicture}
                 sx={{ width: 80, height: 80, fontSize: '2.5rem' }}
               >
-                {!currentUser?.profilePicture &&
-                  !formData.profilePicture &&
-                  formData.username?.charAt(0).toUpperCase()}
+                {!formData.profilePicture && !currentUser?.profilePicture && formData.username?.charAt(0).toUpperCase()}
               </Avatar>
 
               <Button variant="outlined" component="label" startIcon={<PhotoCamera />}>
                 Change Photo
                 <input
+                  ref={fileInputRef}
                   hidden
                   accept="image/*"
                   type="file"
@@ -210,7 +217,6 @@ function AccountSettings() {
         </CardContent>
       </Card>
 
-      {/* CUSTOM OVERLAY */}
       {showDeleteConfirm && (
         <Box
           sx={{
@@ -228,22 +234,11 @@ function AccountSettings() {
           }}
         >
           <Card sx={{ maxWidth: 400, p: 3, borderRadius: 2 }}>
-            <Typography
-              sx={{
-                fontWeight: 700,
-                mb: 3,
-                fontSize: { xs: '1.2rem', md: '1.4rem', xl: '1.6rem' },
-              }}
-            >
+            <Typography sx={{ fontWeight: 700, mb: 3, fontSize: '1.4rem' }}>
               Confirm Deletion
             </Typography>
-
             <Stack direction="row" spacing={2} justifyContent="flex-end">
-              <Button
-                onClick={() => setShowDeleteConfirm(false)}
-                sx={{ fontSize: '10px', color: 'inherit' }}
-                disabled={isDeleting}
-              >
+              <Button onClick={() => setShowDeleteConfirm(false)} disabled={isDeleting}>
                 Cancel
               </Button>
               <Button
@@ -251,7 +246,6 @@ function AccountSettings() {
                 variant="contained"
                 color="error"
                 disabled={isDeleting}
-                sx={{ fontSize: '10px' }}
               >
                 {isDeleting ? 'Processing...' : 'Delete My Account'}
               </Button>
@@ -266,12 +260,7 @@ function AccountSettings() {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} variant="filled">
           {snackbar.message}
         </Alert>
       </Snackbar>
