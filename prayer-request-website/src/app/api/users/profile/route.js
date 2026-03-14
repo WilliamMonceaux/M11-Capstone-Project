@@ -48,6 +48,13 @@ export async function PATCH(req) {
     if (newPassword && newPassword.trim() !== '') {
       user.password = newPassword; 
     }
+    const allowedUpdates = ['username', 'email', 'password'];
+    allowedUpdates.forEach((key) => {
+      const value = formData.get(key);
+      if (value && typeof value === 'string' && value.trim() !== '') {
+        user[key] = value;
+      }
+    });
 
     await user.save();
 
@@ -80,10 +87,11 @@ export async function DELETE(req) {
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (jwtErr) {
-      return NextResponse.json({ message: 'Session expired. Please log in again.' }, { status: 401 });
+      return NextResponse.json({ message: 'Session expired' }, { status: 401 });
     }
 
     const userId = decoded.userId;
+    const userObjectId = new Types.ObjectId(userId);
 
     const deletedUser = await User.findByIdAndDelete(userId);
     
@@ -104,13 +112,18 @@ export async function DELETE(req) {
     } catch (cleanupErr) {
       console.warn("Cleanup warning: User deleted, but some orphan content might remain.", cleanupErr);
     }
+    await Promise.all([
+      PrayerPost.deleteMany({ user_id: userObjectId }),
+      Comment.deleteMany({ user_id: userObjectId }),
+      Like.deleteMany({ user_id: userObjectId })
+    ]);
 
     cookieStore.delete('token');
 
     return NextResponse.json({ message: 'Account deleted' }, { status: 200 });
 
   } catch (err) {
-    console.error('SERVER DELETE ERROR:', err);
+    console.error('DELETE ERROR:', err);
     return NextResponse.json({ 
       message: 'Internal Server Error', 
       error: err.message 
