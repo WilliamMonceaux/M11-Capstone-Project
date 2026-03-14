@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, Typography, Box, Paper, Divider } from '@mui/material';
 
 export default function AboutPage() {
-  // 1.125 Scale (Major Second) - The "Safe & Professional" Scale
   const responsiveTypography = {
     h1: {
       fontSize: { xs: '2.8rem', md: '3.2rem', xl: '3.6rem' },
@@ -69,7 +68,7 @@ export default function AboutPage() {
             Goals
           </Typography>
           <Typography variant="body1" paragraph>
-            Creating a faith-based community that strives in deeping their relationship
+            Creating a faith-based community that strives in deepening their relationship
             with God. God calls us to being in community numerous times in the bible. It
             is important for community to lift one another during troubling times, which
             helps gives us strength in knowing that we are not alone and keep ourselves
