@@ -2,9 +2,12 @@ import { connectMongo } from '@/lib/mongodb';
 import { User } from '@/models/User';
 import { PrayerPost } from '@/models/PrayerPost'; 
 import { Comment } from '@/models/Comment';
+import { Like } from '@/models/Like';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { Types } from 'mongoose';
+import { uploadToS3 } from '@/lib/s3';
 
 export async function PATCH(req) {
   try {
@@ -17,19 +20,34 @@ export async function PATCH(req) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const data = await req.json();
+    const formData = await req.formData();
     
     const user = await User.findById(decoded.userId);
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const allowedUpdates = ['username', 'email', 'password', 'profilePicture'];
-    allowedUpdates.forEach((key) => {
-      if (data[key] && data[key].trim() !== '') {
-        user[key] = data[key];
-      }
-    });
+    const file = formData.get('profilePicture');
+    if (file && typeof file !== 'string' && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const s3Url = await uploadToS3(buffer, file.name, file.type);
+      user.profilePicture = s3Url;
+    }
+
+    const username = formData.get('username');
+    if (username && username.trim() !== '') {
+      user.username = username;
+    }
+
+    const email = formData.get('email');
+    if (email && email.trim() !== '') {
+      user.email = email;
+    }
+
+    const newPassword = formData.get('password');
+    if (newPassword && newPassword.trim() !== '') {
+      user.password = newPassword; 
+    }
 
     await user.save();
 
@@ -43,7 +61,7 @@ export async function PATCH(req) {
 
   } catch (err) {
     console.error('PATCH ERROR:', err);
-    return NextResponse.json({ message: 'Update failed' }, { status: 500 });
+    return NextResponse.json({ message: 'Update failed', error: err.message }, { status: 500 });
   }
 }
 
@@ -67,7 +85,6 @@ export async function DELETE(req) {
 
     const userId = decoded.userId;
 
-
     const deletedUser = await User.findByIdAndDelete(userId);
     
     if (!deletedUser) {
@@ -82,6 +99,8 @@ export async function DELETE(req) {
       await Comment.deleteMany({ 
         $or: [{ author: userId }, { user_id: userId }, { userId: userId }] 
       });
+
+      await Like.deleteMany({ user_id: userId });
     } catch (cleanupErr) {
       console.warn("Cleanup warning: User deleted, but some orphan content might remain.", cleanupErr);
     }
