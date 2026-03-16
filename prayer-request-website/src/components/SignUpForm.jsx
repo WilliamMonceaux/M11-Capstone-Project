@@ -81,10 +81,24 @@ function SignUpForm(props) {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
+
+    if (!file) return;
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
     }
+
+    if (file.size > 2 * 1024 * 1024) {
+      setSnackbarSeverity('error');
+      setSnackbarMessage('File is too large (max 2MB)');
+      setOpenSnackbar(true);
+
+      event.target.value = '';
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const validateInputs = () => {
