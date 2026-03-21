@@ -161,12 +161,14 @@ function AccountSettings() {
   return (
     <Box
       sx={{
-        p: 3,
+        p: { xs: 2, md: 3 },
         display: 'flex',
         justifyContent: 'center',
-        minHeight: '100vh',
+        alignItems: 'flex-start',
+        minHeight: '100%',
+        width: '100%',
         overflowY: 'auto',
-        pb: 10,
+        pb: 15,
       }}
     >
       <Card variant="outlined" sx={{ width: '100%', maxWidth: 550, borderRadius: 3 }}>
@@ -183,7 +185,7 @@ function AccountSettings() {
               >
                 {!displayImage && formData.username?.charAt(0).toUpperCase()}
               </Avatar>
-              <Stack direction="row" spacing={1}>
+              <Stack direction="column" textAlign="center" spacing={2}>
                 <Button
                   variant="outlined"
                   component="label"
@@ -251,6 +253,12 @@ function AccountSettings() {
                 color="error"
                 startIcon={<DeleteForeverIcon />}
                 onClick={() => setShowDeleteConfirm(true)}
+                sx={{
+                  width: {
+                    xs: '100%', // Full width on mobile
+                    sm: 'auto', // Normal width on tablet/desktop
+                  },
+                }}
               >
                 Delete Account
               </Button>
