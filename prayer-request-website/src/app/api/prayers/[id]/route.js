@@ -3,20 +3,28 @@ import { PrayerPost } from '@/models/PrayerPost';
 import { NextResponse } from 'next/server';
 import { Like } from '@/models/Like';
 
+/**
+ * DELETE Handler: Safely removes a prayer request from the database.
+ */
+
 export async function DELETE(req, { params }) {
   try {
     await connectMongo();
-    const { id } = await params;
+    const { id } = await params; // The Post ID from the URL
     const body = await req.json();
-    const { user_id } = body;
+    const { user_id } = body; // // The ID of the user requesting the deletion
 
+    // Fetch the post to check who owns it
     const prayer = await PrayerPost.findById(id);
     if (!prayer) return NextResponse.json({ error: 'Post not found' }, { status: 404 });
 
+    // SECURITY CHECK: Compare the post's creator ID to the current user's ID.
+    // .toString() is used because MongoDB IDs are objects, not plain strings.
     if (prayer.user_id.toString() !== user_id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
+    // If the user is the owner, proceed with deletion
     await PrayerPost.findByIdAndDelete(id);
 
     return NextResponse.json(
@@ -37,7 +45,8 @@ export async function PATCH(req, { params }) {
 
     if (action === 'togglePray') {
       const prayer = await PrayerPost.findById(id);
-      if (!prayer) return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+      if (!prayer)
+        return NextResponse.json({ error: 'Post not found' }, { status: 404 });
 
       if (prayer.user_id.toString() === user_id) {
         return NextResponse.json(
