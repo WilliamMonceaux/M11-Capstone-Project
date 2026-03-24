@@ -67,7 +67,7 @@ function SignInForm(props) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [formError, setFormError] = React.useState('');
+  const [formStatus, setFormStatus] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -75,7 +75,7 @@ function SignInForm(props) {
   };
 
   const handleClose = () => {
-    setFormError('');
+    setFormStatus('');
     if (!validateInputs()) return;
 
     setOpen(false);
@@ -84,7 +84,7 @@ function SignInForm(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setFormError('');
+    setFormStatus('');
     if (!validateInputs()) return;
 
     setLoading(true);
@@ -102,13 +102,16 @@ function SignInForm(props) {
       const result = await response.json();
 
       if (response.ok) {
+
         handleUpdateUser(result.user);
-        router.push('/');
-      } else {
-        setFormError(result.message || 'Login failed');
+
+        window.location.href = '/';
+
+        setFormStatus(result.message || 'Login failed');
+
       }
     } catch (err) {
-      setFormError('A server error occurred. Please try again later.');
+      setFormStatus('A server error occurred. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -154,14 +157,17 @@ function SignInForm(props) {
             Sign in
           </Typography>
           {props.message && (
-            <Alert severity="info" sx={{ textAlign: 'center', mb: 1, fontSize: '1.6rem' }}>
+            <Alert
+              severity="info"
+              sx={{ textAlign: 'center', mb: 1, fontSize: '1.6rem' }}
+            >
               {props.message}
             </Alert>
           )}
 
-          {formError && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {formError}
+          {formStatus && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              {formStatus}
             </Alert>
           )}
           <Box
