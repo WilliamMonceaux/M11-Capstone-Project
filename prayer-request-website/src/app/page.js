@@ -4,11 +4,21 @@ import { HeroArea } from '@/components/HeroArea';
 import { PrayerRequestCards } from '@/components/PrayerRequestCards';
 import { UnderstandingPrayer } from '@/components/UnderstandingPrayer';
 import { PrayerCategories } from '@/components/PrayerCategories';
-import { Typography, Container } from '@mui/material';
-import { Box } from '@mui/material';
+import { useUserContext } from '@/context/UserContext';
+import { CircularProgress, Box, Typography, Container } from '@mui/material';
 
 export default function Home() {
   const [statusFilter, setStatusFilter] = useState('all');
+  const { loading } = useUserContext();
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <>
       <HeroArea
