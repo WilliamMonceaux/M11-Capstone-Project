@@ -17,14 +17,14 @@ import ListItemText from '@mui/material/ListItemText';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { matchPath, useLocation } from 'react-router';
 import DashboardSidebarContext from '@/context/DashboardSidebarContext';
-import { DRAWER_WIDTH, MINI_DRAWER_WIDTH } from '@/theme/customizations/constants';
+import { DRAWER_WIDTH, MINI_DRAWER_WIDTH } from '@/lib/theme/customizations/constants';
 import DashboardSidebarPageItem from './DashboardSidebarPageItem';
 import DashboardSidebarHeaderItem from './DashboardSidebarHeaderItem';
 import DashboardSidebarDividerItem from './DashboardSidebarDividerItem';
 import {
   getDrawerSxTransitionMixin,
   getDrawerWidthTransitionMixin,
-} from '@/theme/customizations/mixins';
+} from '@/lib/theme/customizations/mixins';
 
 function DashboardSidebar({
   expanded = true,
