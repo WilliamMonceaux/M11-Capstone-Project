@@ -1,7 +1,7 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from '@/lib/theme';
+import theme from '@/lib/index.js';
 import { Roboto, Lato } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
