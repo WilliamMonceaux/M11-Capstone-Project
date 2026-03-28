@@ -9,5 +9,10 @@ html {
 }
 
 body {
-    background-image: radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%));
+  background-image: radial-gradient(
+    var(--mui-palette-background-paper), 
+    var(--mui-palette-background-default)
+  );
+  background-attachment: fixed;
+  min-height: 100vh;
 }
