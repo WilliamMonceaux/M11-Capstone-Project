@@ -29,15 +29,19 @@ function HeroArea({ heading, paragraph, button }) {
           flexGrow: 1,
         }}
       >
-        <Grid item sx={{ width: { xs: '100%', md: '80%' }, textAlign: 'center', mt: 2 }}>
+        <Grid
+          item
+          sx={{ width: { xs: '100%', md: '80%' }, textAlign: 'center', mt: 2 }}
+        >
           <Typography
             variant="h1"
             component="h1"
-            sx={{
-              letterSpacing: '-0.02em',
-              wordBreak: 'keep-all',
-              textShadow: '0px 6px 12px rgba(0,0,0,0.35)',
-            }}
+            sx={(theme) => ({
+              textShadow:
+                theme.palette.mode === 'dark'
+                  ? '0px 6px 12px rgba(255, 255, 255, 0.4)'
+                  : '0px 6px 12px rgba(0,0,0,0.3)',
+            })}
           >
             {heading}
           </Typography>
@@ -45,10 +49,12 @@ function HeroArea({ heading, paragraph, button }) {
 
         <Grid item sx={{ textAlign: 'center', mt: 2, width: '60%' }}>
           <Typography
-            sx={{
-              fontSize: { xs: '1.4rem', md: '1.6rem', xl: '2rem' },
-              textShadow: '0px 6px 12px rgba(0,0,0,0.35)',
-            }}
+            sx={(theme) => ({
+              textShadow:
+                theme.palette.mode === 'dark'
+                  ? '0px 6px 12px rgba(255, 255, 255, 0.4)'
+                  : '0px 6px 12px rgba(0,0,0,0.3)',
+            })}
           >
             {paragraph}
           </Typography>
