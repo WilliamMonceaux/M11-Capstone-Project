@@ -31,26 +31,11 @@ export default function ThemeSwitcher() {
           aria-label={`Switch to ${paletteMode === 'dark' ? 'light' : 'dark'} mode`}
           onClick={toggleMode}
         >
-          {theme.getColorSchemeSelector ? (
-            <React.Fragment>
-              <LightModeIcon
-                sx={{
-                  display: 'inline',
-                  [theme.getColorSchemeSelector('dark')]: {
-                    display: 'none',
-                  },
-                }}
-              />
-              <DarkModeIcon
-                sx={{
-                  display: 'none',
-                  [theme.getColorSchemeSelector('dark')]: {
-                    display: 'inline',
-                  },
-                }}
-              />
-            </React.Fragment>
-          ) : null}
+{paletteMode === 'dark' ? (
+    <LightModeIcon sx={{ fontSize: '2rem' }} />
+  ) : (
+    <DarkModeIcon sx={{ fontSize: '2rem' }} />
+  )}
         </IconButton>
       </div>
     </Tooltip>
