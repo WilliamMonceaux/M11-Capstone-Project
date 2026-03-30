@@ -48,14 +48,7 @@ function HeroArea({ heading, paragraph, button }) {
         </Grid>
 
         <Grid item sx={{ textAlign: 'center', mt: 2, width: '60%' }}>
-          <Typography
-            sx={(theme) => ({
-              textShadow:
-                theme.palette.mode === 'dark'
-                  ? '0px 6px 12px rgba(255, 255, 255, 0.4)'
-                  : '0px 6px 12px rgba(0,0,0,0.3)',
-            })}
-          >
+          <Typography sx={{ textShadow: 'var(--mui-palette-text-glow' }}>
             {paragraph}
           </Typography>
         </Grid>
