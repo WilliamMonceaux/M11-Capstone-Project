@@ -217,12 +217,6 @@ function RequestForm() {
               fontSize: { md: '1.4rem', xl: '1.6rem' },
               textTransform: 'none',
               borderRadius: 2,
-              boxShadow: 'none',
-              backgroundColor: '#2196f3',
-              '&:hover': {
-                backgroundColor: '#1976d2',
-                boxShadow: 'none',
-              },
             }}
           >
             Submit Request
