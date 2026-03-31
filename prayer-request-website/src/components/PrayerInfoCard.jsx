@@ -3,13 +3,12 @@ import { Box, Typography, Paper } from '@mui/material';
 function PrayerInfoCard({ title, description, quote, image }) {
   return (
     <Paper
-    elevation={0}
+    elevation={3}
       sx={{
         width: '100%',
         maxWidth: '425px',
         p: 4,
         borderRadius: 2,
-        boxShadow: 'var(--mui-palette-baseShadow)',
         textAlign: 'center',
       }}
     >
