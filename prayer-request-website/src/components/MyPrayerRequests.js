@@ -1,4 +1,5 @@
 'use client';
+import { green, red } from '../lib/theme/customizations/themePrimitives';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -195,9 +196,9 @@ function MyPrayerRequests() {
                     }}
                     sx={{
                       bgcolor:
-                        prayer.status === 'Prayer Answered' ? '#f0f9f4' : '#fff5f5',
+                        prayer.status === 'Prayer Answered' ? green[50] : red[50],
                       color:
-                        prayer.status === 'Prayer Answered' ? '#2e7d32' : '#b71c1c',
+                        prayer.status === 'Prayer Answered' ? green[500] : red[500],
                       px: 2,
                       py: 0.5,
                       fontSize: { xs: '1.2rem' },
