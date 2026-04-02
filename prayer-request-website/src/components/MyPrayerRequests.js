@@ -1,4 +1,5 @@
 'use client';
+import { green, red } from '../lib/theme/customizations/themePrimitives';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -119,7 +120,6 @@ function MyPrayerRequests() {
           mb: 4,
           fontWeight: 700,
           letterSpacing: '-0.02em',
-          fontSize: { xs: '2rem', md: '2.5rem' },
         }}
       >
         My Prayer Requests
@@ -146,10 +146,10 @@ function MyPrayerRequests() {
                 <Typography
                   variant="h5"
                   sx={{
-                    fontSize: { xs: '1.6rem', md: '1.8rem', xl: '2rem' },
                     fontWeight: 600,
                     lineHeight: 1.2,
                     flex: 1,
+                    textAlign: { xs: 'center', sm: 'left' },
                   }}
                 >
                   {prayer.title}
@@ -196,14 +196,14 @@ function MyPrayerRequests() {
                     }}
                     sx={{
                       bgcolor:
-                        prayer.status === 'Prayer Answered' ? '#f0f9f4' : '#fff5f5',
+                        prayer.status === 'Prayer Answered' ? green[50] : red[50],
                       color:
-                        prayer.status === 'Prayer Answered' ? '#2e7d32' : '#b71c1c',
+                        prayer.status === 'Prayer Answered' ? green[500] : red[500],
                       px: 2,
                       py: 0.5,
+                      fontSize: { xs: '1.2rem' },
                       borderRadius: 5,
                       textTransform: 'none',
-                      fontSize: { xs: '0.9rem', md: '1.0rem' },
                       fontWeight: 'bold',
                       border: `1px solid ${prayer.status === 'Prayer Answered' ? '#e1f3e8' : '#ffebee'}`,
                       '&:hover': {
@@ -415,7 +415,6 @@ function CommentSection({ prayerId }) {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              fontSize: '1.6rem',
               fontWeight: 'bold',
             }}
           >
@@ -423,15 +422,15 @@ function CommentSection({ prayerId }) {
           </Avatar>
           <Box>
             <Typography
-              variant="caption"
-              sx={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'text.secondary' }}
+              variant="body2"
+              sx={{ fontWeight: 'bold', textAlign: { xs: 'center', sm: 'left' }, mb: 0.5 }}
             >
               {c.user_id?.username || 'Anonymous'} •{' '}
               {new Date(c.createdAt).toLocaleDateString()}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ fontSize: '1.4rem', color: 'text.primary', mt: 0.5 }}
+              sx={{ textAlign: { xs: 'center', sm: 'left' }}}
             >
               {c.content}
             </Typography>

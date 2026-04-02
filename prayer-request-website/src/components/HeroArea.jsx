@@ -1,5 +1,5 @@
 import { Typography, Grid } from '@mui/material';
-import { RequestBtn } from '../components/RequestBtn';
+import { RequestBtn } from './Buttons';
 
 function HeroArea({ heading, paragraph, button }) {
   return (
@@ -29,33 +29,26 @@ function HeroArea({ heading, paragraph, button }) {
           flexGrow: 1,
         }}
       >
-        <Grid item sx={{ width: { xs: '100%', md: '80%' }, textAlign: 'center', mt: 2 }}>
+        <Grid
+          item
+          sx={{ width: { xs: '100%', md: '80%' }, textAlign: 'center', mt: 2 }}
+        >
           <Typography
             variant="h1"
             component="h1"
-            sx={{
-              fontSize: {
-                xs: '2.8rem',
-                md: '6.10rem',
-                xl: '7.63rem',
-              },
-              lineHeight: 1.1,
-              letterSpacing: '-0.02em',
-              wordBreak: 'keep-all',
-              textShadow: '0px 6px 12px rgba(0,0,0,0.35)',
-            }}
+            sx={(theme) => ({
+              textShadow:
+                theme.palette.mode === 'dark'
+                  ? '0px 6px 12px rgba(255, 255, 255, 0.4)'
+                  : '0px 6px 12px rgba(0,0,0,0.3)',
+            })}
           >
             {heading}
           </Typography>
         </Grid>
 
         <Grid item sx={{ textAlign: 'center', mt: 2, width: '60%' }}>
-          <Typography
-            sx={{
-              fontSize: { xs: '1.4rem', md: '1.6rem', xl: '2rem' },
-              textShadow: '0px 6px 12px rgba(0,0,0,0.35)',
-            }}
-          >
+          <Typography sx={{ textShadow: 'var(--mui-palette-text-glow' }}>
             {paragraph}
           </Typography>
         </Grid>

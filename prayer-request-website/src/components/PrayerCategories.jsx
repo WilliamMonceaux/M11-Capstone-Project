@@ -1,4 +1,5 @@
 import { ToggleButton, ToggleButtonGroup, styled } from '@mui/material';
+import { gray, green, red } from '../lib/theme/customizations/themePrimitives';
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   backgroundColor: '#f5f5f7',
@@ -11,7 +12,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     padding: '6px 24px',
     textTransform: 'none',
     fontWeight: 600,
-    color: '#555',
+    color: gray[500],
     [theme.breakpoints.up('xs')]: {
       fontSize: '1.2rem',
     },
@@ -25,13 +26,13 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         opacity: 0.9,
       },
       '&[value="all"]': {
-        backgroundColor: '#757575',
+        backgroundColor: gray[500],
       },
       '&[value="need prayers"]': {
-        backgroundColor: '#757575',
+        backgroundColor: red[400],
       },
       '&[value="prayer answered"]': {
-        backgroundColor: '#757575',
+        backgroundColor: green[400],
       },
     },
   },

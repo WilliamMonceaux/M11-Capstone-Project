@@ -1,5 +1,7 @@
 'use client';
+import { green, red } from '../lib/theme/customizations/themePrimitives';
 import React, { useEffect, useState } from 'react';
+import { StatusBadge } from './Buttons';
 import {
   Box,
   Typography,
@@ -18,7 +20,7 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  DialogActions
+  DialogActions,
 } from '@mui/material';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
@@ -29,9 +31,9 @@ import { Edit as EditIcon } from '@mui/icons-material';
 const PrayerCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   borderRadius: theme.shape.borderRadius * 2,
-  boxShadow: '0px 2px 8px rgba(0,0,0,0.1)',
-  border: '1px solid #e0e0e0',
-  backgroundColor: '#fff',
+  boxShadow: theme.shadows[1],
+  border: `1px solid ${theme.palette.divider}`,
+  backgroundColor: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   transition: 'transform 0.2s',
@@ -42,27 +44,18 @@ const PrayerCard = styled(Paper)(({ theme }) => ({
   },
 }));
 
-const StatusBadge = styled(Box)(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  padding: theme.spacing(0.5, 1.5),
-  borderRadius: '4px',
-  backgroundColor: '#ffebee',
-  border: '1px solid',
-}));
-
 const getStatusColors = (status) => {
   if (status === 'Prayer Answered') {
     return {
-      bg: '#e8f5e9',
-      border: '#a5d6a7',
-      shadow: 'rgba(165, 214, 167, 0.6)',
+      bg: green[50],
+      border: green[200],
+      shadow: green[200],
     };
   }
   return {
-    bg: '#ffebee',
-    border: '#ffcdd2',
-    shadow: 'rgba(255, 205, 210, 0.6)',
+    bg: red[50],
+    border: red[200],
+    shadow: red[100],
   };
 };
 
@@ -176,7 +169,8 @@ function PrayerRequestCards({ activeStatus }) {
 
         if (res.ok) {
           const data = await res.json();
-          setPrayers(data.prayers || [data]);
+          // If data.prayers is undefined, fallback to an empty array to prevent .map errors
+          setPrayers(Array.isArray(data.prayers) ? data.prayers : []);
           setTotalPages(data.totalPages || 1);
         }
       } catch (err) {
@@ -313,7 +307,10 @@ function PrayerRequestCards({ activeStatus }) {
                         <IconButton
                           size="small"
                           onClick={() => handleEditClick(prayer)}
-                          sx={{ color: 'grey.400', '&:hover': { color: 'primary.main' } }}
+                          sx={{
+                            color: 'grey.400',
+                            '&:hover': { color: 'primary.main' },
+                          }}
                         >
                           <EditIcon fontSize="medium" />
                         </IconButton>
@@ -368,10 +365,10 @@ function PrayerRequestCards({ activeStatus }) {
                         onClick={() => toggleComments(prayer._id)}
                         variant="text"
                         sx={{
+                          typography: 'caption',
                           textTransform: 'none',
                           fontWeight: 700,
-                          borderRadius: '20px',
-                          fontSize: { xs: '0.9rem', md: '1rem', xl: '1.3rem' },
+                          borderRadius: '2rem',
                           color: 'text.primary',
                         }}
                       >
@@ -409,7 +406,7 @@ function PrayerRequestCards({ activeStatus }) {
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'flex-end',
-                      mt: 'auto'
+                      mt: 'auto',
                     }}
                   >
                     <StatusBadge
@@ -422,10 +419,10 @@ function PrayerRequestCards({ activeStatus }) {
                       }}
                     >
                       <Typography
+                        variant="body2"
                         sx={{
                           color: 'black',
                           fontWeight: 'bold',
-                          fontSize: { xs: '0.9rem', md: '1.1rem', xl: '1.6rem' },
                         }}
                       >
                         Status: &nbsp;
@@ -440,9 +437,15 @@ function PrayerRequestCards({ activeStatus }) {
                           variant="standard"
                           disableUnderline
                           sx={{
+                            border: 'none',
+                            boxShadow: 'none',
+                            backgroundColor: 'transparent',
+                            typography: 'body2',
                             fontWeight: 500,
-                            fontSize: { xs: '0.9rem', md: '1.1rem', xl: '1.6rem' },
                             color: 'black',
+                            '&:hover': {
+                              backgroundColor: 'transparent',
+                            },
                           }}
                         >
                           <MenuItem value="Need Prayers">Need Prayers</MenuItem>
@@ -450,10 +453,10 @@ function PrayerRequestCards({ activeStatus }) {
                         </Select>
                       ) : (
                         <Typography
+                          variant="body2"
                           sx={{
                             color: 'black',
                             fontWeight: 500,
-                            fontSize: { xs: '0.9rem', md: '1.1rem', xl: '1.6rem' },
                           }}
                         >
                           {status}
@@ -464,9 +467,7 @@ function PrayerRequestCards({ activeStatus }) {
                     <Typography
                       variant="caption"
                       sx={{
-                        color: 'grey.500',
                         fontStyle: 'italic',
-                        fontSize: { xs: '0.9rem', md: '1rem', xl: '1.5rem' },
                       }}
                     >
                       {formatDistanceToNow(new Date(prayer.createdAt))} ago

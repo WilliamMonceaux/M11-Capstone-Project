@@ -77,6 +77,9 @@ export const navigationCustomizations = {
       )),
     },
     styleOverrides: {
+      icon: {
+        color: '#000000',
+      },
       root: ({ theme }) => ({
         borderRadius: (theme.vars || theme).shape.borderRadius,
         border: '1px solid',
@@ -95,6 +98,11 @@ export const navigationCustomizations = {
         '&:before, &:after': {
           display: 'none',
         },
+        '& .MuiSelect-nativeInput': {
+          appearance: 'none',
+          WebkitAppearance: 'none',
+          MozAppearance: 'none',
+        },
         ...theme.applyStyles('dark', {
           borderRadius: (theme.vars || theme).shape.borderRadius,
           borderColor: gray[700],
@@ -109,6 +117,9 @@ export const navigationCustomizations = {
             outlineOffset: 0,
             borderColor: gray[900],
           },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
           '&:before, &:after': {
             display: 'none',
           },
@@ -117,11 +128,14 @@ export const navigationCustomizations = {
       select: ({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
+        '&:focus': {
+          backgroundColor: 'transparent !important',
+        },
         ...theme.applyStyles('dark', {
           display: 'flex',
           alignItems: 'center',
           '&:focus-visible': {
-            backgroundColor: gray[900],
+            backgroundColor: 'transparent !important',
           },
         }),
       }),
