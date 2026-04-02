@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
 import Image from 'next/image';
 import { green, red, brand } from '../lib/theme/customizations/themePrimitives';
-
+ 
 // SHARED UI PRIMITIVES
 
 export const CustomButton = styled(MuiButton)(({ theme }) => ({
