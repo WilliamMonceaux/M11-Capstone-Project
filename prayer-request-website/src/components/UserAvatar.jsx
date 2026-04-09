@@ -4,17 +4,20 @@ import { gray } from '../lib/theme/customizations/themePrimitives';
 const StyledAvatar = styled(Avatar)(({ theme, size }) => ({
   backgroundColor: gray[200],
   color: theme.palette.light,
-  fontWeight: 'bold',
 }));
 
-function UserAvatar({ user, size, sx }) {
-  const initials = user?.username
-    ? user.username.charAt(0).toUpperCase()
-    : user?.name?.charAt(0) || 'W';
+
+// Displays profile picture if a user has one
+// else it will display the first initials of username
+function UserAvatar({ user }) {
+  const profilePic = user.profilePicture;
+  const initials = user.username.charAt(0).toUpperCase();
+
+ const userProfile = profilePic ? profilePic : initials;
 
   return (
-    <StyledAvatar src={user?.profilePicture} size={size} sx={sx}>
-      {initials}
+    <StyledAvatar src={profilePic}>
+      {userProfile}
     </StyledAvatar>
   );
 }
