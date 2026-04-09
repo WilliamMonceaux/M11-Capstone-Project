@@ -20,22 +20,17 @@ import Image from 'next/image';
 import CheckMark from '../../public/images/checkmark.png';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
+import { gray } from '../lib/theme/customizations/themePrimitives';
 
 const PageWrapper = styled(Stack)(({ theme }) => ({
   minHeight: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(4, 2),
-  backgroundImage:
-    'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-  ...theme.applyStyles('dark', {
-    backgroundImage:
-      'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-  }),
 }));
 
 function RequestForm() {
-  const { currentUser: user, loading } = useUserContext();
+  const { currentUser: user } = useUserContext();
   const router = useRouter();
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -118,8 +113,6 @@ function RequestForm() {
             textAlign: 'left',
             fontWeight: 'bold',
             mb: 4,
-            fontSize: '3.125rem',
-            color: 'text.primary',
           }}
         >
           Request Prayer
@@ -137,7 +130,7 @@ function RequestForm() {
             variant="filled"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            sx={{ mb: 3, backgroundColor: '#f9f9f9', borderRadius: 1 }}
+            sx={{ mb: 3, backgroundColor: gray[100], borderRadius: 1 }}
             required
           />
           <Box component="section" sx={{ mb: 3 }}>
@@ -157,7 +150,7 @@ function RequestForm() {
               variant="filled"
               helperText={`${request.length}/1000`}
               FormHelperTextProps={{ sx: { textAlign: 'right' } }}
-              sx={{ backgroundColor: '#f9f9f9', borderRadius: 1 }}
+              sx={{ backgroundColor: gray[100] , borderRadius: 1 }}
             />
           </Box>
           <Box
@@ -214,7 +207,6 @@ function RequestForm() {
               />
             }
             sx={{
-              fontSize: { md: '1.4rem', xl: '1.6rem' },
               textTransform: 'none',
               borderRadius: 2,
             }}
