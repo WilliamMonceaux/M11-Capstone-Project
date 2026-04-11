@@ -1,5 +1,6 @@
 import { Avatar, styled } from '@mui/material';
 import { gray } from '../lib/theme/customizations/themePrimitives';
+import PropTypes from 'prop-types';
 
 const StyledAvatar = styled(Avatar)(({ theme, size }) => ({
   backgroundColor: gray[200],
@@ -10,10 +11,17 @@ const StyledAvatar = styled(Avatar)(({ theme, size }) => ({
 // Displays profile picture if a user has one
 // else it will display the first initials of username
 function UserAvatar({ user }) {
-  const profilePic = user.profilePicture;
-  const initials = user.username.charAt(0).toUpperCase();
+  const profilePic = user?.profilePicture;
+  const initials = user?.username.charAt(0).toUpperCase();
 
- const userProfile = profilePic ? profilePic : initials;
+ const userProfile = profilePic || initials
+
+ UserAvatar.propTypes = {
+  user: PropTypes.shape({
+    username: PropTypes.string,
+    profilePicture: PropTypes.string,
+  }).isRequired,
+};
 
   return (
     <StyledAvatar src={profilePic}>
