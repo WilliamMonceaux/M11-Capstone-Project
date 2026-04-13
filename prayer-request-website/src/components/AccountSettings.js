@@ -18,6 +18,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useUserContext } from '@/context/UserContext';
 import { UserAvatar } from './UserAvatar';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import CheckMark from '../../public/images/checkmark.png';
 
 function AccountSettings() {
   const router = useRouter();
@@ -51,6 +53,15 @@ function AccountSettings() {
     }
   }, [currentUser]);
 
+  const userPreview = {
+    ...currentUser,
+    // If image was removed, send null. If a new file was uploaded, send the base64.
+    // Otherwise, keep the original.
+    profilePicture: imageRemoved
+      ? null
+      : formData.profilePicture || currentUser?.profilePicture,
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -80,6 +91,7 @@ function AccountSettings() {
       fileInputRef.current.value = '';
     }
   };
+  console.log(currentUser);
 
   const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
 
@@ -179,7 +191,10 @@ function AccountSettings() {
 
           <Stack spacing={3} sx={{ mt: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-              <UserAvatar user={currentUser} sx={{ width: 80, height: 80, fontSize: '3rem'}} />
+              <UserAvatar
+                user={userPreview}
+                sx={{ width: 80, height: 80, fontSize: '3rem' }}
+              />
               <Stack direction="column" textAlign="center" spacing={2}>
                 <Button
                   variant="outlined"
@@ -197,9 +212,10 @@ function AccountSettings() {
                 </Button>
                 {displayImage && (
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="error"
                     onClick={handleRemovePicture}
+                    sx={{}}
                   >
                     Remove
                   </Button>
@@ -235,6 +251,15 @@ function AccountSettings() {
               variant="contained"
               size="large"
               onClick={onSave}
+              endIcon={
+                <Image
+                  src={CheckMark}
+                  alt=""
+                  width={28}
+                  height={28}
+                  style={{ filter: 'brightness(0) invert(1)' }}
+                />
+              }
             >
               Save Changes
             </Button>
@@ -243,7 +268,7 @@ function AccountSettings() {
 
             <Box>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="error"
                 startIcon={<DeleteForeverIcon />}
                 onClick={() => setShowDeleteConfirm(true)}
