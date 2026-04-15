@@ -3,9 +3,7 @@ import { green, red } from '../lib/theme/customizations/themePrimitives';
 import React, { useEffect, useState } from 'react';
 import { StatusBadge } from './Buttons';
 import { UserHeader } from './UserHeader';
-import { CommentBtn } from './CommentBtn';
-import { LikeBtn } from './LikeBtn';
-import { EditBtn } from './EditBtn';
+import { CardActions } from './CardActions';
 import {
   Box,
   Typography,
@@ -261,31 +259,19 @@ function PrayerRequestCards({ activeStatus }) {
                       name={isAnonymous ? 'Anonymous' : username}
                       pic={isAnonymous ? { name: '?' } : prayer.user_id}
                     />
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      sx={{
-                        order: { xs: 1, sm: 2 },
-                        width: { xs: '100%', sm: 'auto' },
-                        justifyContent: 'flex-end',
-                      }}
-                    >
-                      {isAuthor && (
-                        <EditBtn editToggle={() => handleEditClick(prayer)} />
-                      )}
-                      <LikeBtn
-                        author={isAuthor}
-                        toggle={() => handlePray(prayer._id)}
-                        prayed={hasPrayed}
-                        prayCount={prayer.prayedCount || 0}
-                      />
-                      <CommentBtn
-                        text={isExpanded ? 'Hide' : 'Comment'}
-                        expand={() => toggleComments(prayer._id)}
-                        amount={prayer.comment_id?.length || 0}
-                      />
-                    </Stack>
+
+                    {/* User Interactions for each prayer request */}
+                    {/* Like, comment, or edit a prayer post */}
+                    <CardActions
+                      prayerAuthor={isAuthor}
+                      onEdit={() => handleEditClick(prayer)}
+                      onPray={() => handlePray(prayer._id)}
+                      prayCount={prayer.prayedCount || 0}
+                      commentToggle={() => toggleComments(prayer._id)}
+                      commentCount={prayer.comment_id?.length || 0}
+                      hasPrayed={hasPrayed}
+                      isExpanded={isExpanded}
+                    />
                   </Box>
 
                   <Typography
