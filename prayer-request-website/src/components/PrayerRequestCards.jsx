@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBadge } from './Buttons';
 import { UserHeader } from './UserHeader';
 import { CommentBtn } from './CommentBtn';
+import { LikeBtn } from './LikeBtn';
 import {
   Box,
   Typography,
@@ -284,50 +285,12 @@ function PrayerRequestCards({ activeStatus }) {
                           <EditIcon fontSize="medium" />
                         </IconButton>
                       )}
-                      <Button
-                        onClick={() => handlePray(prayer._id)}
-                        disabled={isAuthor}
-                        startIcon={
-                          <Box
-                            sx={{
-                              position: 'relative',
-                              width: { xs: 20, md: 26, xl: 32 },
-                              height: { xs: 20, md: 26, xl: 32 },
-                            }}
-                          >
-                            <Image
-                              src={
-                                hasPrayed
-                                  ? '/images/like-btn-praying.png'
-                                  : '/images/like-btn-praying-outlined.png'
-                              }
-                              alt="Pray"
-                              fill
-                              style={{ objectFit: 'contain' }}
-                              sizes="32px"
-                            />
-                          </Box>
-                        }
-                        sx={{
-                          textTransform: 'none',
-                          fontWeight: 700,
-                          borderRadius: '2rem',
-                          color: hasPrayed ? green[500] : 'inherit',
-                          backgroundColor: hasPrayed
-                            ? 'rgba(46, 125, 50, 0.08)'
-                            : 'transparent',
-                        }}
-                      >
-                        {hasPrayed ? 'Prayed' : 'Pray'}
-                      </Button>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 800,
-                        }}
-                      >
-                        {prayer.prayedCount || 0}
-                      </Typography>
+                      <LikeBtn
+                        author={isAuthor}
+                        toggle={() => handlePray(prayer._id)}
+                        prayed={hasPrayed}
+                        prayCount={prayer.prayedCount || 0}
+                      />
                       <CommentBtn
                         text={isExpanded ? 'Hide' : 'Comment'}
                         expand={() => toggleComments(prayer._id)}
