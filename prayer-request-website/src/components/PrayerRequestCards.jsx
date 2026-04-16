@@ -6,6 +6,7 @@ import { UserHeader } from './UserHeader';
 import { CardActions } from './CardActions';
 import { PrayerContent } from './PrayerContent';
 import { TimeAgo } from './TimeAgo';
+import { EditPrayerDialog } from './EditPrayerDialog';
 import {
   Box,
   Typography,
@@ -13,16 +14,8 @@ import {
   Paper,
   styled,
   Stack,
-  Button,
   Pagination,
   Skeleton,
-  Select,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-  MenuItem
 } from '@mui/material';
 import { useUserContext } from '@/context/UserContext';
 import { Comments } from '@/components/Comments';
@@ -73,6 +66,7 @@ function PrayerRequestCards({ activeStatus }) {
   const handleEditClick = (prayer) => {
     setSelectedPrayer(prayer);
     setEditDialogOpen(true);
+    console.log(editDialogOpen);
   };
 
   const handleEditSubmit = async () => {
@@ -286,20 +280,19 @@ function PrayerRequestCards({ activeStatus }) {
                       mt: 'auto',
                     }}
                   >
-
                     {/* Displays status of prayers */}
                     {/* The Author has the ability to toggle between different statuses */}
                     <StatusBadge
                       status={status}
-                      onStatusChange={(e) => handleStatusChange(prayer._id, e.target.value)}
+                      onStatusChange={(e) =>
+                        handleStatusChange(prayer._id, e.target.value)
+                      }
                       isAuthor={isAuthor}
                       sx={{ cursor: isAuthor ? 'pointer' : 'default' }}
-                    >
-                    </StatusBadge>
+                    ></StatusBadge>
 
                     {/* Displays when prayer was created */}
                     <TimeAgo createdAt={prayer.createdAt} />
-                    
                   </Box>
 
                   {isExpanded && (
@@ -320,52 +313,18 @@ function PrayerRequestCards({ activeStatus }) {
                 size="large"
               />
             </Box>
+            <EditPrayerDialog
+              onOpen={editDialogOpen}
+              onClose={() => setEditDialogOpen(false)}
+              prayer={selectedPrayer}
+              onSubmit={handleEditSubmit}
+              onUpdateField={(field, value) =>
+                setSelectedPrayer((prev) => ({ ...prev, [field]: value }))
+              }
+            />
           </>
         )}
       </Container>
-
-      <Dialog
-        open={editDialogOpen}
-        onClose={() => setEditDialogOpen(false)}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle sx={{ fontWeight: 'bold' }}>Edit Prayer Request</DialogTitle>
-        <DialogContent>
-          <Stack spacing={3} sx={{ mt: 1 }}>
-            <TextField
-              fullWidth
-              label="Title"
-              value={selectedPrayer?.title || ''}
-              onChange={(e) =>
-                setSelectedPrayer({ ...selectedPrayer, title: e.target.value })
-              }
-            />
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="Description"
-              value={selectedPrayer?.description || ''}
-              onChange={(e) =>
-                setSelectedPrayer({ ...selectedPrayer, description: e.target.value })
-              }
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions sx={{ p: 3 }}>
-          <Button onClick={() => setEditDialogOpen(false)} color="inherit">
-            Cancel
-          </Button>
-          <Button
-            onClick={handleEditSubmit}
-            variant="contained"
-            sx={{ borderRadius: 2, px: 4 }}
-          >
-            Update Request
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 }
