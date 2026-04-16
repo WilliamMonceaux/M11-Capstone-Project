@@ -5,6 +5,7 @@ import { StatusBadge } from './Buttons';
 import { UserHeader } from './UserHeader';
 import { CardActions } from './CardActions';
 import { PrayerContent } from './PrayerContent';
+import { TimeAgo } from './TimeAgo';
 import {
   Box,
   Typography,
@@ -23,7 +24,6 @@ import {
   TextField,
   DialogActions,
 } from '@mui/material';
-import { formatDistanceToNow } from 'date-fns';
 import { useUserContext } from '@/context/UserContext';
 import { Comments } from '@/components/Comments';
 
@@ -341,14 +341,9 @@ function PrayerRequestCards({ activeStatus }) {
                       )}
                     </StatusBadge>
 
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      {formatDistanceToNow(new Date(prayer.createdAt))} ago
-                    </Typography>
+                    {/* Displays when prayer was created */}
+                    <TimeAgo createdAt={prayer.createdAt} />
+                    
                   </Box>
 
                   {isExpanded && (
