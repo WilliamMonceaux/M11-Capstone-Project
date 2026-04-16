@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBadge } from './Buttons';
 import { UserHeader } from './UserHeader';
 import { CardActions } from './CardActions';
+import { PrayerContent } from './PrayerContent';
 import {
   Box,
   Typography,
@@ -274,27 +275,8 @@ function PrayerRequestCards({ activeStatus }) {
                     />
                   </Box>
 
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: 800,
-                      mb: 1,
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {prayer.title}
-                  </Typography>
-
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: 'text.secondary',
-                      mb: 4,
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    {prayer.description}
-                  </Typography>
+                  {/* Prayer topic title and content users requests prayers for  */}
+                  <PrayerContent title={prayer.title} content={prayer.description} />
 
                   <Box
                     sx={{
