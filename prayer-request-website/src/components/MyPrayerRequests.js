@@ -1,7 +1,7 @@
 'use client';
 import { green, red } from '../lib/theme/customizations/themePrimitives';
-
 import React, { useState, useEffect } from 'react';
+import { RequestStats } from './RequestStats';
 import {
   Box,
   Typography,
@@ -231,45 +231,12 @@ function MyPrayerRequests() {
                 {prayer.description}
               </Typography>
 
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: { xs: 2, md: 5 },
-                  alignItems: 'center',
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem', xl: '1.3rem' },
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Prayers: {prayer.prayedCount || 0}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem', xl: '1.3rem' },
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Comments: {prayer.commentCount || 0}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem', xl: '1.3rem' },
-                  }}
-                >
-                  Duration: {prayer.duration}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem', xl: '1.3rem' },
-                  }}
-                >
-                  Posted: {new Date(prayer.createdAt).toLocaleDateString()}
-                </Typography>
-              </Box>
+              <RequestStats
+                prayers={prayer.prayedCount || 0}
+                comments={prayer.commentCount || 0}
+                duration={prayer.duration}
+                posted={new Date(prayer.createdAt).toLocaleDateString()}
+              />
             </CardContent>
 
             <Accordion elevation={0} sx={{ borderTop: '1px solid #f0f0f0' }}>
@@ -423,14 +390,18 @@ function CommentSection({ prayerId }) {
           <Box>
             <Typography
               variant="body2"
-              sx={{ fontWeight: 'bold', textAlign: { xs: 'center', sm: 'left' }, mb: 0.5 }}
+              sx={{
+                fontWeight: 'bold',
+                textAlign: { xs: 'center', sm: 'left' },
+                mb: 0.5,
+              }}
             >
               {c.user_id?.username || 'Anonymous'} •{' '}
               {new Date(c.createdAt).toLocaleDateString()}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ textAlign: { xs: 'center', sm: 'left' }}}
+              sx={{ textAlign: { xs: 'center', sm: 'left' } }}
             >
               {c.content}
             </Typography>
