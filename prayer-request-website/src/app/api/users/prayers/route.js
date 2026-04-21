@@ -29,7 +29,8 @@ export async function GET() {
     
     // FETCH DATA: Find only the prayers belonging to this specific user ID
     // .lean() converts the Mongoose document into a plain JS object (faster & easier to edit)
-    const userPrayers = await PrayerPost.find({ user_id: decoded.userId })
+const userPrayers = await PrayerPost.find({ user_id: decoded.userId })
+      .populate('user_id', 'username profilePicture') 
       .sort({ createdAt: -1 })
       .lean();
 
