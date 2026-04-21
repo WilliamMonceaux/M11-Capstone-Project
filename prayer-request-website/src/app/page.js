@@ -73,7 +73,7 @@ export default function Home() {
             <PrayerCategories alignment={statusFilter} setAlignment={setStatusFilter} />
           </Box>
         </Container>
-        <PrayerRequestCards activeStatus={statusFilter} />
+        <PrayerRequestCards activeStatus={statusFilter} prayer={'all'} />
       </main>
     </>
   );
